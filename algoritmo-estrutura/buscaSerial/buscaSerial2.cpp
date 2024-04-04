@@ -33,27 +33,23 @@ void lerInformacao(int tam, struct Pessoa x[]){
 }
 
 void buscarInformacao(int tam, struct Pessoa x[]){
-    int buscarID, amzI, amzID;
+    int buscarID;
+    int i=0;
     cout << "\nInforme o ID para busca: ";
     cin >> buscarID;
 
-    //for(int i=0; i < tam; i++)
-    for(int i=0; i < tam && buscarID > x[i].id< i++ )
-        if(buscarID == x[i].id ){
-            amzID = x[i].id;
-            amzI = i;
-        }
+    //int i fora do for por conta dele ser necesssário depois
+    for(; i < tam && buscarID > x[i].id; i++ );
+    if(buscarID == x[i].id){
+        cout << "\nID encontradado!";
+        cout << "\nNome: " << x[i].nome;
+        cout << "\nEndereco: " << x[i].endereco;
+        cout << "\nCidade: " << x[i].cidade;
+        cout << "\nUF: " << x[i].uf;
     } 
-
-    if(buscarID == amzID){
-        cout << "\nID encontradado: " << x[amzI].id;
-        cout << "\nNome: " << x[amzI].nome;
-        cout << "\nEndereco: " << x[amzI].endereco;
-        cout << "\nCidade: " << x[amzI].cidade;
-        cout << "\nUF: " << x[amzI].uf;
-        } else {
-            cout << "\nID nao encontrado!";
-        }
+    else {
+        cout << "\nID nao encontrado!";
+    }
 }
 
 int main(){ 
