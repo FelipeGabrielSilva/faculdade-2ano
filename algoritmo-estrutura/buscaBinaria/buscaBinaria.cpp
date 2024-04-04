@@ -3,7 +3,8 @@
 #include <string.h>
 using namespace std;
 
-struct Pessoa {
+struct Pessoa
+{
     int id;
     /* char nome[30];
     char endereco[30];
@@ -11,8 +12,10 @@ struct Pessoa {
     char uf[2]; */
 };
 
-void lerInformacao(int tam, struct Pessoa x[]){
-    for(int i=0; i < tam; i++){
+void lerInformacao(int tam, struct Pessoa x[])
+{
+    for (int i = 0; i < tam; i++)
+    {
         cout << "\nDigite o ID: ";
         cin >> x[i].id;
 
@@ -32,41 +35,43 @@ void lerInformacao(int tam, struct Pessoa x[]){
     }
 }
 
-void buscarInformacao(int tam, struct Pessoa x[]){
+void buscarInformacao(int tam, struct Pessoa x[])
+{
     int m, buscarID;
     cout << "\nInforme o ID para buscar: ";
     cin >> buscarID;
-    int i=0,  f=tam, encontrado;
+    int i = 0, f = tam, encontrado;
 
-    for(;i != f;){
+    while (i <= f)
+    {
         m = (i + f) / 2;
-        if (x[m].id > buscarID ){
-            f = (m - 1);
-            m = (i + f) / 2;
-            if(x[m].id < buscarID){
-                i = (m + 1);
-                f = (m + 1);
-                encontrado = f;
-            }
-        } else if (x[m].id < buscarID) {
+        if (x[m].id == buscarID)
+        {
+            encontrado = m;
+            return;
+        }
+        else if (x[m].id < buscarID)
+        {
             i = (m + 1);
-            m = (i + f) / 2;
-            if(x[m].id < buscarID){
-                i = (m + 1);
-                f = (m - 1);
-                m = (i + f) / 2;
-                if(x[m].id == buscarID)
-                encontrado = m;
-            }
+        }
+        else
+        {
+            f = (m - 1);
         }
     }
 
-    if(i == f) {
-        cout << "Encontrado na posicao "<< f << " ID: " << x[encontrado].id;
+    if (x[encontrado].id == buscarID)
+    {
+        cout << "Encontrado na posicao " << f << " ID: " << x[encontrado].id;
+    }
+    else
+    {
+        cout << "ID não encontrado.";
     }
 }
 
-int main(){ 
+int main()
+{
     int tam = 12;
     struct Pessoa vPessoas[tam];
 
