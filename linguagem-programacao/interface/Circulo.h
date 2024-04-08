@@ -1,5 +1,5 @@
 #ifndef IFIGURA_H
-    #include "IFigura.h"
+    #define "IFigura.h"
 #endif
 
 #ifndef CIRCULO_H
