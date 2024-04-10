@@ -37,28 +37,25 @@ void lerInformacao(int tam, struct Pessoa x[])
 
 void buscarInformacao(int tam, struct Pessoa x[])
 {
-    int m, buscarID;
+    int  buscarID;
     cout << "\nInforme o ID para buscar: ";
     cin >> buscarID;
     int i = 0, f = tam;
+    int m = ( i + f ) / 2;
 
-    while (i <= f)
-    {
-        m = (i + f) / 2;
-        if (x[m].id < buscarID)
-        {
-            i = (m + 1);
-        }
-        else if(x[m].id > buscarID)
-        {
-            f = (m - 1);
-        } else if (x[m].id == buscarID)
-            {cout << "PESSOA ENCONTRADA NO SISTEMA.";
-            return;
-        }
+    for(; f > i && buscarID != x[m].id; m = (i + f)/2){
+        if(buscarID > x[m].id) i = m + 1;
+        else f = m - 1;
     }
-            cout << "\nPESSOA NAO ENCONTRADA. NAO EXISTE NO SISTEMA";
-            return ;
+
+    if(buscarID == x[m].id){
+        cout << "\nPESSOA ENCONTRADA: ";
+        cout << "\nID: " << x[m].id;
+        cout << "\nNOME: FELIPE";
+        cout << "\nIDADE: 21";
+    } else {
+        cout << "\nPESSOA NAO ENCOTRADA. USUARIO NAO EXISTE.";
+    }
 }
 
 int main()
