@@ -5,8 +5,7 @@ using namespace std;
 struct Cliente
 {
     int id;
-    char nome[30];
-    int idade;
+    string nome;
 };
 
 void ler(struct Cliente vetor[], int tam)
@@ -18,43 +17,32 @@ void ler(struct Cliente vetor[], int tam)
              << "INFORME O ID: ";
         cin >> vetor[i].id;
 
-        cin.ignore();
-
         cout << "INFORME O NOME: ";
-        cin.getline(vetor[i].nome, 30);
-
-        cout << "INFORME A IDADE: ";
-        cin >> vetor[i].idade;
+        cin >> vetor[i].nome;
     }
 }
 
-void insercao(struct Cliente v1[], int t1, struct Cliente v2[], int t2)
+void insercao(struct Cliente v1[], int t1, struct Cliente v2[], int t2, struct Cliente v3[], int t3)
 {
-    int i = 0;
-    int tam3 = (t1 + t2);
-    struct Cliente v3[tam3];
+    int cont = 0;
 
-    for (; i < tam3, i++)
+        for (int i = 0; i < t3; i++)
     {
-        if (v1[i].id < v2.[i].id && v2[i + 1].id < v1[i + 1].id)
-        {
-            v3[i].id = v1[i].id;
-            v3[i + 1].id = v2[i].id;
-        }
-        else
-        {
-            v3[i].id = v2[i].id;
-        }
+        cout << endl
+             << "EXIBINDO AS INFORMACOES ORGANIZADAS:" << endl;
+        cout << "ID: " << v3[i].id << endl;
+        cout << "NOME: " << v3[i].nome << endl;
     }
 }
 
 int main()
 {
-    int tam1 = 10, tam2 = 5;
-    struct Cliente cliente1[tam1], cliente2[tam2];
+    int tam1 = 5, tam2 = 2, tam3 = (tam1 + tam2);
+    struct Cliente cliente1[tam1], cliente2[tam2], cliente3[tam3];
 
     ler(cliente1, tam1);
-    let(cliente2, tam2);
+    ler(cliente2, tam2);
+    insercao(cliente1, tam1, cliente2, tam2, cliente3, tam3);
 
     return 0;
 }
