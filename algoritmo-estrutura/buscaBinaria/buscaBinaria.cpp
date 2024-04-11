@@ -19,19 +19,19 @@ void lerInformacao(int tam, struct Pessoa x[])
         cout << "\nDigite o ID: ";
         cin >> x[i].id;
 
-        /* cin.ignore();
+        cin.ignore();
 
         cout << "Digite o nome: ";
         cin.getline(x[i].nome, 30);
 
         cout << "Digite o endereco: ";
-         cin.getline(x[i].endereco, 30);
+        cin.getline(x[i].endereco, 30);
 
         cout << "Digite o cidade: ";
-         cin.getline(x[i].cidade, 20);
+        cin.getline(x[i].cidade, 20);
 
         cout << "Digite o UF: ";
-         cin.getline(x[i].uf, 3); */
+        cin.getline(x[i].uf, 3);
     }
 }
 
@@ -49,16 +49,18 @@ void buscarInformacao(int tam, struct Pessoa x[])
         {
             i = (m + 1);
         }
-        else if(x[m].id > buscarID)
+        else if (x[m].id > buscarID)
         {
             f = (m - 1);
-        } else if (x[m].id == buscarID)
-            {cout << "PESSOA ENCONTRADA NO SISTEMA.";
+        }
+        else if (x[m].id == buscarID)
+        {
+            cout << "PESSOA ENCONTRADA NO SISTEMA.";
             return;
         }
     }
-            cout << "\nPESSOA NAO ENCONTRADA. NAO EXISTE NO SISTEMA";
-            return ;
+    cout << "\nPESSOA NAO ENCONTRADA. NAO EXISTE NO SISTEMA";
+    return;
 }
 
 int main()
