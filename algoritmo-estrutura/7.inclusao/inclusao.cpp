@@ -26,7 +26,7 @@ void insercao(struct Cliente v1[], int t1, struct Cliente v2[], int t2, struct C
 {
     int cont = 0;
 
-        for (int i = 0; i < t3; i++)
+    for (int i = 0; i < t3; i++)
     {
         cout << endl
              << "EXIBINDO AS INFORMACOES ORGANIZADAS:" << endl;
@@ -38,6 +38,7 @@ void insercao(struct Cliente v1[], int t1, struct Cliente v2[], int t2, struct C
 int main()
 {
     int tam1 = 5, tam2 = 2, tam3 = (tam1 + tam2);
+    int cont1 = 0, cont2 = 0, cont3 = 0;
     struct Cliente cliente1[tam1], cliente2[tam2], cliente3[tam3];
 
     ler(cliente1, tam1);
