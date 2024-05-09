@@ -1,6 +1,8 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
+
 using namespace std;
 
 struct Cidade
@@ -20,8 +22,10 @@ struct Medico
 {
     int id;
     char nome[30];
+    Especialidade esp_cod;
     char endereco[30];
     char telefone[14];
+    Cidade cidade_cod;
 };
 
 struct Paciente
@@ -29,6 +33,7 @@ struct Paciente
     int cpf;
     char nome[30];
     char enderco[30];
+    cidade cidade_cod;
 };
 
 struct CID
@@ -44,18 +49,23 @@ struct Medicamento
     int qtdEstoque;
     int estoqueMinimo;
     int estoqueMaximo;
-    int precoUnitario;
+    float precoUnitario;
 };
 
 struct Consulta
 {
+    Paciente paciene_cod;
+    Medico medico_cod;
     char data[10];
     char horario[5];
+    CID cid_cod;
+    Medicamento medicamento_cod;
+    Medicamento qtd_medicamento;
 };
 
-void lerCidade(struct Cidade city[], int size)
+void lerCidade(struct Cidade city[])
 {
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < 2; i++)
     {
         cout << "\nInforme os dados para cidade" << endl;
 
@@ -72,9 +82,9 @@ void lerCidade(struct Cidade city[], int size)
     }
 }
 
-void lerEspecialidade(struct Especialidade speciality[], int size)
+void lerEspecialidade(struct Especialidade speciality[])
 {
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < 2; i++)
     {
         cout << "\nInforme os dados para especialidade" << endl;
 
@@ -88,9 +98,9 @@ void lerEspecialidade(struct Especialidade speciality[], int size)
     }
 }
 
-void lerCID(struct CID sick[], int size)
+void lerCID(struct CID sick[])
 {
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < 2; i++)
     {
         cout << "\nInforme os dados para CID (Codigo Internacional de Doencas)" << endl;
 
@@ -104,9 +114,9 @@ void lerCID(struct CID sick[], int size)
     }
 }
 
-void lerMedicamento(struct Medicamento medice[], int size)
+void lerMedicamento(struct Medicamento medice[])
 {
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < 2; i++)
     {
         cout << "\nInforme os dados para medicamento" << endl;
 
@@ -132,33 +142,106 @@ void lerMedicamento(struct Medicamento medice[], int size)
     }
 }
 
-Medico insercaoMedico(int $size)
+void consultarMedicamento(struct Medicamento v[])
 {
+    int consulta;
+    cout << "\nInforme o ID para consultar: ";
+    cin >> consulta;
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < 2; i++)
     {
-        cout << "ID: ";
-        cin >> lista[i].id;
-
-        cout << "Nome: ";
-        cin.getline(lista[i].nome);
-
-        cout << "EnderecO: ";
-        cin.getline(lista[i].endereco, 30);
-
-        cout << "Telefone: ";
-        cin.getline(lista[i].telefone, 14);
+        if (v[i].id == consulta)
+        {
+            cout << "\nID: " << v[i].id;
+            cout << "\nDESCRICAO: " << v[i].descricao;
+            cout << "\nESTOQUE: " << v[i].qtdEstoque;
+            cout << "\nESTOQUE MINIMO: " << v[i].estoqueMinimo;
+            cout << "\nESTOQUE MAXIMO: " << v[i].estoqueMaximo;
+            cout << "\nPRECO UNITARIO: " << v[i].precoUnitario;
+            cout << "\nPRECO TOTAL: R$" << v[i].qtdEstoque * v[i].precoUnitario << endl;
+        }
     }
+}
 
-    return lista;
+void consultarEstoque(struct Medicamento v[])
+{
+    cout << "\nPRODUTOS COM ESTOQUE ABAIXO DO MINIMO: ";
+    for (int i = 0; i < 2; i++)
+    {
+        if (v[i].qtdEstoque < v[i].estoqueMinimo)
+        {
+            int diferenca = v[i].estoqueMaximo - v[i].qtdEstoque;
+
+            cout << "\nID: " << v[i].id;
+            cout << "\nDESCRICAO: " << v[i].descricao;
+            cout << "\nESTOQUE: " << v[i].qtdEstoque;
+            cout << "\nESTOQUE MAXIMO: " << v[i].estoqueMaximo;
+            cout << "\nQUANTIDADE A SER COMPRADA: " << diferenca;
+            cout << "\nVALOR DA COMPRA: R$" << v[i].precoUnitario * diferenca << endl;
+        }
+    }
+}
+
+void agendamento(){
+    cout << "\nAGENDAR UMA CONSULTA: ";
+    cout << "\n"
+}
+
+void menu()
+{
+    cout << "\n1. Cadastrar cidade";
+    cout << "\n2. Cadastrar especialidade";
+    cout << "\n3. Cadastrar CID";
+    cout << "\n4. Cadastrar medicamento";
+    cout << "\n5. Consultar medicamento";
+    cout << "\n6. Consultar estoque";
+    cout << "\n0. SAIR";
+    cout << "\n\nOPERACAO: ";
 }
 
 int main()
 {
-    int tamCidade = 2, tamMedico = 2;
-    struct Cidade cidades[tamCidade];
-    struct Medico medicos[tamMedico];
+    struct Cidade cidades[2];
+    struct Especialidade especialidades[2];
+    struct CID cids[2];
+    struct Medicamento medicamentos[2];
 
-    lerCidade(cidades, tamCidade);
+    int codigo;
+
+    while (codigo != 0)
+    {
+        menu();
+        cin >> codigo;
+
+        switch (codigo)
+        {
+        case 1:
+            lerCidade(cidades);
+            system("cls");
+            break;
+
+        case 2:
+            lerEspecialidade(especialidades);
+            system("cls");
+            break;
+
+        case 3:
+            lerCID(cids);
+            system("cls");
+            break;
+
+        case 4:
+            lerMedicamento(medicamentos);
+            system("cls");
+            break;
+
+        case 5:
+            consultarMedicamento(medicamentos);
+
+        case 6:
+            consultarEstoque(medicamentos);
+        }
+    }
+
     return 0;
 }
