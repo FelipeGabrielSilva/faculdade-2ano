@@ -25,7 +25,7 @@ struct Medico
     Especialidade esp_cod;
     char endereco[30];
     char telefone[14];
-    Cidade cidade_cod;
+    int Cidade = id;
 };
 
 struct Paciente
@@ -33,7 +33,7 @@ struct Paciente
     int cpf;
     char nome[30];
     char enderco[30];
-    cidade cidade_cod;
+    Cidade cidade_cod;
 };
 
 struct CID
@@ -182,11 +182,6 @@ void consultarEstoque(struct Medicamento v[])
     }
 }
 
-void agendamento(){
-    cout << "\nAGENDAR UMA CONSULTA: ";
-    cout << "\n"
-}
-
 void menu()
 {
     cout << "\n1. Cadastrar cidade";
@@ -199,12 +194,31 @@ void menu()
     cout << "\n\nOPERACAO: ";
 }
 
+/* struct Medico
+{
+    int id;
+    char nome[30];
+    Especialidade esp_cod;
+    char endereco[30];
+    char telefone[14];
+    Cidade cidade_cod;
+}; */
+
+void inclusaoMedico(Medico v1[], Especialidade esp[], Cidade c[])
+{
+    v1[0] = Medico{0, "Felipe Gabriel", esp[0], "Assis-SP", "(18)99614-9436", c[1]};
+    v1[1] = Medico{1, "Ricardo Gabriel", esp[1], "Assis-SP", "(18)99874-9856", c[1]};
+    v1[2] = Medico{2, "Lucas Gabriel", esp[2], "Assis-SP", "(18)99741-5265", c[2]};
+}
+
 int main()
 {
     struct Cidade cidades[2];
     struct Especialidade especialidades[2];
     struct CID cids[2];
     struct Medicamento medicamentos[2];
+
+    struct Medico medicos[3];
 
     int codigo;
 
@@ -240,6 +254,9 @@ int main()
 
         case 6:
             consultarEstoque(medicamentos);
+
+        case 7:
+            inclusaoMedico(medicos, especialidades, cidades);
         }
     }
 
