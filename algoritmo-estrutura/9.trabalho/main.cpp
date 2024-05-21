@@ -251,12 +251,15 @@ int main()
 
         case 5:
             consultarMedicamento(medicamentos);
+            break;
 
         case 6:
             consultarEstoque(medicamentos);
+            break;
 
         case 7:
             inclusaoMedico(medicos, especialidades, cidades);
+            break;
         }
     }
 
