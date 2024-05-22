@@ -8,44 +8,44 @@ using namespace std;
 struct Cidade
 {
     int id;
-    char nome[26];
-    char uf[3];
+    string nome;
+    string uf;
 };
 
 struct Especialidade
 {
     int id;
-    char especializacao[30];
+    string especializacao;
 };
 
 struct Medico
 {
     int id;
-    char nome[30];
+    string nome;
     Especialidade esp_cod;
-    char endereco[30];
-    char telefone[14];
-    int Cidade = id;
+    string endereco;
+    string telefone;
+    int Cidade;
 };
 
 struct Paciente
 {
     int cpf;
-    char nome[30];
-    char enderco[30];
+    string nome;
+    string enderco;
     Cidade cidade_cod;
 };
 
 struct CID
 {
     int id;
-    char descricao[30];
+    string descricao;
 };
 
 struct Medicamento
 {
     int id;
-    char descricao[30];
+    string descricao;
     int qtdEstoque;
     int estoqueMinimo;
     int estoqueMaximo;
@@ -56,8 +56,8 @@ struct Consulta
 {
     Paciente paciene_cod;
     Medico medico_cod;
-    char data[10];
-    char horario[5];
+    string data;
+    string horario;
     CID cid_cod;
     Medicamento medicamento_cod;
     Medicamento qtd_medicamento;
@@ -75,10 +75,10 @@ void lerCidade(struct Cidade city[])
         cin.ignore();
 
         cout << "Nome: ";
-        cin.getline(city[i].nome, 26);
+        cin >> city[i].nome;
 
         cout << "UF: ";
-        cin.getline(city[i].uf, 3);
+        cin >> city[i].uf;
     }
 }
 
@@ -94,7 +94,7 @@ void lerEspecialidade(struct Especialidade speciality[])
         cin.ignore();
 
         cout << "Descricao: ";
-        cin.getline(speciality[i].especializacao, 30);
+        cin >> speciality[i].especializacao;
     }
 }
 
@@ -110,7 +110,7 @@ void lerCID(struct CID sick[])
         cin.ignore();
 
         cout << "Descricao: ";
-        cin.getline(sick[i].descricao, 30);
+        cin >> sick[i].descricao;
     }
 }
 
@@ -126,7 +126,7 @@ void lerMedicamento(struct Medicamento medice[])
         cin.ignore();
 
         cout << "Descricao: ";
-        cin.getline(medice[i].descricao, 30);
+        cin >> medice[i].descricao;
 
         cout << "Quantidade estoque: ";
         cin >> medice[i].qtdEstoque;
@@ -197,28 +197,58 @@ void menu()
 /* struct Medico
 {
     int id;
-    char nome[30];
+    string nome;
     Especialidade esp_cod;
-    char endereco[30];
-    char telefone[14];
+    string endereco[30];
+    string telefone[14];
     Cidade cidade_cod;
 }; */
 
-void inclusaoMedico(Medico v1[], Especialidade esp[], Cidade c[])
+/* void inclusaoMedico(Medico v1[], Especialidade esp[], Cidade c[])
 {
-    v1[0] = Medico{0, "Felipe Gabriel", esp[0], "Assis-SP", "(18)99614-9436", c[1]};
-    v1[1] = Medico{1, "Ricardo Gabriel", esp[1], "Assis-SP", "(18)99874-9856", c[1]};
-    v1[2] = Medico{2, "Lucas Gabriel", esp[2], "Assis-SP", "(18)99741-5265", c[2]};
-}
+} */
 
 int main()
 {
-    struct Cidade cidades[2];
-    struct Especialidade especialidades[2];
-    struct CID cids[2];
-    struct Medicamento medicamentos[2];
+    Cidade cidades[10];
 
-    struct Medico medicos[3];
+    cidades[0] = {1, "Assis", "SP"};
+    cidades[1] = {2, "Candido Mota", "SP"};
+    cidades[2] = {3, "Taruma", "SP"};
+    cidades[3] = {4, "Marilia", "SP"};
+    cidades[4] = {5, "Botucatu", "SP"};
+
+    Especialidade especialidades[10];
+
+    especialidades[0] = {1, "Clinico geral"};
+    especialidades[1] = {2, "Pediatria"};
+    especialidades[2] = {3, "Ginecologia"};
+    especialidades[3] = {4, "Cardiologia"};
+    especialidades[4] = {5, "Ortopedia"};
+
+    CID cids[2];
+
+    cids[0] = {1, "Diabetes"};
+    cids[1] = {2, "Hipertensao arterial"};
+    cids[2] = {3, "Doenca cardiaca"};
+    cids[3] = {4, "Cancer"};
+    cids[4] = {5, "Doenca pulmonar"};
+
+    Medicamento medicamentos[10];
+
+    medicamentos[0] = {1, "Paracetamol"};
+    medicamentos[1] = {2, "Ibuprofeno"};
+    medicamentos[2] = {3, "Omeprazol"};
+    medicamentos[3] = {4, "Amoxicilina"};
+    medicamentos[4] = {5, "Aspirina"};
+
+    Medico medicos[3];
+
+    medicos[0] = {1, "Felipe Gabriel", 1, "Rua amado batista 202", "(18)99614-9436", 1, "Assis"};
+    medicos[1] = {2, "Andrei Gabriel", 2, "Rua amado batista 202", "(18)99614-9436", 2};
+    medicos[2] = {3, "Ricardo Gabriel", 3, "Rua amado batista 202", "(18)99614-9436", 3};
+    medicos[3] = {4, "Antonio Gabriel", 4, "Rua amado batista 202", "(18)99614-9436", 4};
+    medicos[4] = {5, "Lucas Gabriel", 5, "Rua amado batista 202", "(18)99614-9436", 5};
 
     int codigo;
 
@@ -255,10 +285,6 @@ int main()
 
         case 6:
             consultarEstoque(medicamentos);
-            break;
-
-        case 7:
-            inclusaoMedico(medicos, especialidades, cidades);
             break;
         }
     }
