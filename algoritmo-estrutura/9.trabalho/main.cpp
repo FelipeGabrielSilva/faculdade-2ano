@@ -22,10 +22,10 @@ struct Medico
 {
     int id;
     string nome;
-    Especialidade esp_cod;
+    int cod_esp;
     string endereco;
     string telefone;
-    int Cidade;
+    int cod_cidade;
 };
 
 struct Paciente
@@ -33,7 +33,7 @@ struct Paciente
     int cpf;
     string nome;
     string enderco;
-    Cidade cidade_cod;
+    int cidade_cod;
 };
 
 struct CID
@@ -54,13 +54,13 @@ struct Medicamento
 
 struct Consulta
 {
-    Paciente paciene_cod;
-    Medico medico_cod;
+    int paciente_cod;
+    int cod_medico;
     string data;
     string horario;
-    CID cid_cod;
-    Medicamento medicamento_cod;
-    Medicamento qtd_medicamento;
+    int cid_cod;
+    int medicamento_cod;
+    int qtd_medicamento;
 };
 
 void lerCidade(struct Cidade city[])
@@ -194,23 +194,11 @@ void menu()
     cout << "\n\nOPERACAO: ";
 }
 
-/* struct Medico
-{
-    int id;
-    string nome;
-    Especialidade esp_cod;
-    string endereco[30];
-    string telefone[14];
-    Cidade cidade_cod;
-}; */
-
-/* void inclusaoMedico(Medico v1[], Especialidade esp[], Cidade c[])
-{
-} */
-
 int main()
 {
-    Cidade cidades[10];
+    int tamanho = 10;
+
+    Cidade cidades[tamanho];
 
     cidades[0] = {1, "Assis", "SP"};
     cidades[1] = {2, "Candido Mota", "SP"};
@@ -218,7 +206,7 @@ int main()
     cidades[3] = {4, "Marilia", "SP"};
     cidades[4] = {5, "Botucatu", "SP"};
 
-    Especialidade especialidades[10];
+    Especialidade especialidades[tamanho];
 
     especialidades[0] = {1, "Clinico geral"};
     especialidades[1] = {2, "Pediatria"};
@@ -226,7 +214,7 @@ int main()
     especialidades[3] = {4, "Cardiologia"};
     especialidades[4] = {5, "Ortopedia"};
 
-    CID cids[2];
+    CID cids[tamanho];
 
     cids[0] = {1, "Diabetes"};
     cids[1] = {2, "Hipertensao arterial"};
@@ -234,21 +222,32 @@ int main()
     cids[3] = {4, "Cancer"};
     cids[4] = {5, "Doenca pulmonar"};
 
-    Medicamento medicamentos[10];
+    Medicamento medicamentos[tamanho];
 
-    medicamentos[0] = {1, "Paracetamol"};
-    medicamentos[1] = {2, "Ibuprofeno"};
-    medicamentos[2] = {3, "Omeprazol"};
-    medicamentos[3] = {4, "Amoxicilina"};
-    medicamentos[4] = {5, "Aspirina"};
+    medicamentos[0] = {1, "Paracetamol", 178, 250, 1000, 0.99};
+    medicamentos[1] = {2, "Ibuprofeno", 256, 250, 1000, 1.25};
+    medicamentos[2] = {3, "Omeprazol", 982, 250, 1000, 0.66};
+    medicamentos[3] = {4, "Amoxicilina", 745, 250, 1000, 0.78};
+    medicamentos[4] = {5, "Aspirina", 357, 250, 1000, 0.25};
 
-    Medico medicos[3];
+    Medico medicos[tamanho];
 
-    medicos[0] = {1, "Felipe Gabriel", 1, "Rua amado batista 202", "(18)99614-9436", 1, "Assis"};
+    medicos[0] = {1, "Felipe Gabriel", 1, "Rua amado batista 202", "(18)99614-9436", 1};
     medicos[1] = {2, "Andrei Gabriel", 2, "Rua amado batista 202", "(18)99614-9436", 2};
     medicos[2] = {3, "Ricardo Gabriel", 3, "Rua amado batista 202", "(18)99614-9436", 3};
     medicos[3] = {4, "Antonio Gabriel", 4, "Rua amado batista 202", "(18)99614-9436", 4};
     medicos[4] = {5, "Lucas Gabriel", 5, "Rua amado batista 202", "(18)99614-9436", 5};
+
+    for (int i = 0; i < 5; i++)
+    {
+        cout << endl
+             << medicos[i].id;
+        cout << medicos[i].nome;
+        cout << medicos[i].Especialidade;
+        cout << medicos[i].endereco;
+        cout << medicos[i].telefone;
+        cout << medicos[i].Cidade;
+    }
 
     int codigo;
 
