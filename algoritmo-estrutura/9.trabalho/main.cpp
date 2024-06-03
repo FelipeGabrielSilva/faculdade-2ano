@@ -494,39 +494,78 @@ void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, const Cidade ci
             {
                 break; // Sai do loop se o nome for válido
             }
+
+            cin.ignore();
         } while (true);
 
-        do{
+        do
+        {
             cout << "Codigo especialidade: ";
-            cin >> medicos[tamanhoCidades].cod_especialidade;
+            cin >> medicos[tamanhoMedicos].cod_especialidade;
 
-            int indice = buscarEspecialidadePorId(especialidades, tamanhoEspecialidades, medicos[tamanhoCidades].cod_especialidade);
+            int indice = buscarEspecialidadePorId(especialidades, tamanhoEspecialidades, medicos[tamanhoMedicos].cod_especialidade);
             if (indice != -1)
-                {
-                    cout << "Descricao: " << especialidades[indice].especializacao;
-                    break;
-                }
-                else
-                {
-                    cout << "Especialidade invalida.";
-                }
-        } while(true);
+            {
+                cout << "Descricao: " << especialidades[indice].especializacao;
+                break;
+            }
+            else
+            {
+                cout << "Especialidade invalida.";
+            }
 
-        do{
+            cin.ignore();
+        } while (true);
+
+        do
+        {
+            cout << "Endereco: ";
+            getline(cin, medicos[tamanhoMedicos].endereco);
+
+            if (medicos[tamanhoMedicos].endereco.empty())
+            {
+                cout << "Endereco invalido. O endereco nao pode ser vazio.\n";
+            }
 
         } while (true);
 
-        do{
+        do
+        {
+            cout << "Telefone: ";
+            getline(cin, medicos[tamanhoMedicos].telefone);
+            if (medicos[tamanhoMedicos].telefone.empty())
+            {
+                cout << "Telefone invalido. O telefone nao pode ser vazio.\n";
+            }
+            else
+            {
+                break; // Sai do loop se o nome for válido
+            }
 
+            cin.ignore();
         } while (true);
 
-        do{
+        do
+        {
+            cout << "Codigo cidade: ";
+            cin >> medicos[tamanhoMedicos].cod_cidade;
 
+            int indice = buscarCidadePorId(cidades, tamanhoCidades, medicos[tamanhoMedicos].cod_cidade);
+            if (indice != -1)
+            {
+                cout << "Cidade: " << cidades[indice].nome;
+                break;
+            }
+            else
+            {
+                cout << "Cidade invalida.";
+            }
+
+            cin.ignore();
         } while (true);
 
-        do{
-
-        } while (true);
+        tamanhoMedicos++;
+        cout << "\nMedico cadastrado com sucesso!";
     }
     else
     {
