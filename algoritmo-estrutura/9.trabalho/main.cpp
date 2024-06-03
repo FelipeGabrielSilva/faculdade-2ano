@@ -196,16 +196,16 @@ void consultarEstoque(struct Medicamento v[], int tamanho)
     }
 }
 
-void lerCidade(struct Cidade cidades[], int &tamanho)
+void lerCidade(struct Cidade cidades[], int &tamanho, int &tMaximo)
 {
-    if (tamanho < 10)
-    {
-        cout << "\nInforme os dados para a cidade:\n";
+    int novoId;
 
-        // Validação do ID (assumindo que IDs devem ser positivos e únicos)
-        int novoId;
+    if (tamanho < tMaximo)
+    {
         do
         {
+            cout << "\nInforme os dados para a cidade:\n";
+
             cout << "ID: ";
             cin >> novoId;
             cin.ignore();
@@ -216,20 +216,18 @@ void lerCidade(struct Cidade cidades[], int &tamanho)
             }
             else
             {
-                // Verifica se o ID ja existe
-                bool idExistente = false;
-                for (int i = 0; i < tamanho; ++i)
+                // Utiliza a função de busca para verificar se o ID  ja existe
+                int indice = buscarCidadePorId(cidades, tamanho, novoId);
+
+                // Se o índice for válido, significa que o ID  ja existe
+                if (indice != -1)
                 {
-                    if (cidades[i].id == novoId)
-                    {
-                        cout << "ID ja cadastrado. Informe um ID único.\n";
-                        idExistente = true;
-                        break;
-                    }
+                    cout << "\nCidade com esse ID  ja existe!\n";
                 }
-                if (!idExistente)
+                else
                 {
-                    break; // Sai do loop se o ID for válido e único
+                    // Se o ID é válido e não existe, sai do loop
+                    break;
                 }
             }
         } while (true);
@@ -278,31 +276,72 @@ void lerCidade(struct Cidade cidades[], int &tamanho)
     }
 }
 
-void lerEspecialidade(struct Especialidade especialidades[], int &tamanho)
+void lerEspecialidade(struct Especialidade especialidades[], int &tamanho, int tMaximo)
 {
-    if (tamanho < 10)
+    int novoId;
+
+    if (tamanho < tMaximo)
     {
-        cout << "\nInforme os dados para a especialidade:\n";
+        do
+        {
+            cout << "\nInforme os dados para a especialidade:\n";
 
-        cout << "ID: ";
-        cin >> especialidades[tamanho].id;
-        cin.ignore();
+            cout << "ID: ";
+            cin >> novoId;
+            cin.ignore();
 
-        cout << "Especializacao: ";
-        getline(cin, especialidades[tamanho].especializacao);
+            if (novoId <= 0)
+            {
+                cout << "ID inválido. O ID deve ser um número positivo.\n";
+            }
+            else
+            {
+                // Utiliza a função de busca para verificar se o ID  ja existe
+                int indice = buscarEspecialidadePorId(especialidades, tamanho, novoId);
+
+                // Se o índice for válido, significa que o ID  ja existe
+                if (indice != -1)
+                {
+                    cout << "\nEspecialidade com esse ID  ja existe!\n";
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        } while (true);
+
+        especialidades[tamanho].id = novoId;
+
+        // Validação do Especialidade (nao permite nome vazio)
+        do
+        {
+            cout << "Especializacao: ";
+            getline(cin, especialidades[tamanho].especializacao);
+
+            if (especialidades[tamanho].especializacao.empty())
+            {
+                cout << "Especializacao invalido. A especializacao nao pode ser vazio.\n";
+            }
+            else
+            {
+                break; // Sai do loop se o nome for válido
+            }
+        } while (true);
 
         tamanho++;
         cout << "\nEspecialidade cadastrada com sucesso!\n";
     }
     else
     {
-        cout << "\nLimite máximo de especialidades atingido.\n";
+        cout << "\nLimite maximo de especialidades atingido.\n";
     }
 }
 
-void lerCid(struct CID cids[], int &tamanho)
+void lerCid(struct CID cids[], int &tamanho, int &tMaximo)
 {
-    if (tamanho < 10)
+    if (tamanho < tMaximo)
     {
         cout << "\nInforme os dados para o CID:\n";
 
@@ -322,9 +361,9 @@ void lerCid(struct CID cids[], int &tamanho)
     }
 }
 
-void lerMedicamento(struct Medicamento medicamentos[], int &tamanho)
+void lerMedicamento(struct Medicamento medicamentos[], int &tamanho, int &tMaximo)
 {
-    if (tamanho < 10)
+    if (tamanho < tMaximo)
     {
         cout << "\nInforme os dados para o medicamento:\n";
 
@@ -658,23 +697,23 @@ int main()
         switch (codigo)
         {
         case 1:
-            lerCidade(cidades, tamanhoCidades);
-            system("cls");
+            lerCidade(cidades, tamanhoCidades, tamanho);
+
             break;
 
         case 2:
-            lerEspecialidade(especialidades, tamanhoEspecialidades);
-            system("cls");
+            lerEspecialidade(especialidades, tamanhoEspecialidades, tamanho);
+
             break;
 
         case 3:
-            lerCid(cids, tamanhoCids);
-            system("cls");
+            lerCid(cids, tamanhoCids, tamanho);
+
             break;
 
         case 4:
-            lerMedicamento(medicamentos, tamanhoMedicamentos);
-            system("cls");
+            lerMedicamento(medicamentos, tamanhoMedicamentos, tamanho);
+
             break;
 
         case 5:
@@ -687,19 +726,19 @@ int main()
 
         case 7:
             incluirMedico(medicos, tamanhoMedicos, cidades, tamanhoCidades, especialidades, tamanhoEspecialidades);
-            system("cls");
+
             break;
 
         case 8:
             incluirPaciente(pacientes, tamanhoPacientes, cidades, tamanhoCidades);
-            system("cls");
+
             break;
 
         case 9:
             incluirConsulta(consultas, tamanhoConsultas, pacientes, tamanhoPacientes,
                             medicos, tamanhoMedicos, cidades, tamanhoCidades,
                             medicamentos, tamanhoMedicamentos);
-            system("cls");
+
             break;
 
         case 10:
