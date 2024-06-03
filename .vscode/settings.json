@@ -6,7 +6,8 @@
         "format": "cpp",
         "xstring": "cpp",
         "*.tcc": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "xlocale": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

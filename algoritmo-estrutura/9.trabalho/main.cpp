@@ -142,6 +142,59 @@ int buscarCIDPorId(const CID cids[], int tamanho, int idProcurado)
 
     return -1;
 }
+int buscarMedicamentoPorId(const Medicamento medicamentos[], int tamanho, int idProcurado)
+{
+    int inicio = 0;
+    int fim = tamanho - 1;
+
+    while (inicio <= fim)
+    {
+        int meio = inicio + (fim - inicio) / 2;
+
+        if (medicamentos[meio].id == idProcurado)
+        {
+            return meio;
+        }
+
+        if (medicamentos[meio].id < idProcurado)
+        {
+            inicio = meio + 1;
+        }
+        else
+        {
+            fim = meio - 1;
+        }
+    }
+
+    return -1;
+}
+
+int buscarMedicoPorId(const Medico medicos[], int tamanho, int idProcurado)
+{
+    int inicio = 0;
+    int fim = tamanho - 1;
+
+    while (inicio <= fim)
+    {
+        int meio = inicio + (fim - inicio) / 2;
+
+        if (medicos[meio].id == idProcurado)
+        {
+            return meio;
+        }
+
+        if (medicos[meio].id < idProcurado)
+        {
+            inicio = meio + 1;
+        }
+        else
+        {
+            fim = meio - 1;
+        }
+    }
+
+    return -1;
+}
 
 bool consultarMedicamento(struct Medicamento v[], int tamanho)
 {
@@ -395,71 +448,89 @@ void lerMedicamento(struct Medicamento medicamentos[], int &tamanho, int &tMaxim
     }
 }
 
-void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, const Cidade cidades[], int tamanhoCidades, const Especialidade especialidades[], int tamanhoEspecialidades)
+void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, const Cidade cidades[], int tamanhoCidades, const Especialidade especialidades[], int tamanhoEspecialidades, int tamanho)
 {
-    if (tamanhoMedicos < 10)
+    int novoId;
+
+    if (tamanhoMedicos < tamanho)
     {
-        cout << "\nInforme os dados para o medico:\n";
-
-        cout << "ID: ";
-        cin >> medicos[tamanhoMedicos].id;
-        cin.ignore();
-
-        cout << "Nome: ";
-        getline(cin, medicos[tamanhoMedicos].nome);
-
-        cout << "Código da Especialidade: ";
-        cin >> medicos[tamanhoMedicos].cod_especialidade;
-        cin.ignore();
-
-        // Validação da especialidade
-        bool especialidadeValida = false;
-        for (int i = 0; i < tamanhoEspecialidades; ++i)
+        do
         {
-            if (especialidades[i].id == medicos[tamanhoMedicos].cod_especialidade)
+            cout << "\nInforme os dados para o medico:\n";
+            cout << "ID: ";
+            cin >> novoId;
+            cin.ignore();
+
+            if (novoId <= 0)
             {
-                especialidadeValida = true;
-                break;
+                cout << "ID inválido. O ID deve ser um número positivo.\n";
             }
-        }
-        if (!especialidadeValida)
-        {
-            cout << "Especialidade inválida.\n";
-            return;
-        }
-
-        cout << "Endereco: ";
-        getline(cin, medicos[tamanhoMedicos].endereco);
-
-        cout << "Telefone: ";
-        getline(cin, medicos[tamanhoMedicos].telefone);
-
-        cout << "Código da Cidade: ";
-        cin >> medicos[tamanhoMedicos].cod_cidade;
-        cin.ignore();
-
-        // Validação da cidade
-        bool cidadeValida = false;
-        for (int i = 0; i < tamanhoCidades; ++i)
-        {
-            if (cidades[i].id == medicos[tamanhoMedicos].cod_cidade)
+            else
             {
-                cidadeValida = true;
-                break;
-            }
-        }
-        if (!cidadeValida)
-        {
-            cout << "Cidade inválida.\n";
-            return;
-        }
+                int indice = buscarMedicoPorId(medicos, tamanhoMedicos, novoId);
 
-        tamanhoMedicos++;
-        cout << "\nmedico cadastrado com sucesso!\n";
+                if (indice != -1)
+                {
+                    cout << "\nMedico com esse ID ja existe!\n";
+                }
+                else
+                {
+                    break;
+                }
+            }
+        } while (true);
+
+        medicos[tamanhoMedicos].id = novoId;
+
+        do
+        {
+            cout << "Nome: ";
+            getline(cin, medicos[tamanhoMedicos].nome);
+            if (medicos[tamanhoMedicos].nome.empty())
+            {
+                cout << "Nome invalido. O nome nao pode ser vazio.\n";
+            }
+            else
+            {
+                break; // Sai do loop se o nome for válido
+            }
+        } while (true);
+
+        do{
+            cout << "Codigo especialidade: ";
+            cin >> medicos[tamanhoCidades].cod_especialidade;
+
+            int indice = buscarEspecialidadePorId(especialidades, tamanhoEspecialidades, medicos[tamanhoCidades].cod_especialidade);
+            if (indice != -1)
+                {
+                    cout << "Descricao: " << especialidades[indice].especializacao;
+                    break;
+                }
+                else
+                {
+                    cout << "Especialidade invalida.";
+                }
+        } while(true);
+
+        do{
+
+        } while (true);
+
+        do{
+
+        } while (true);
+
+        do{
+
+        } while (true);
+
+        do{
+
+        } while (true);
     }
     else
     {
-        cout << "\nLimite máximo de medicos atingido.\n";
+        cout << "\nLimite maximo de medicos atingido!";
     }
 }
 
@@ -725,7 +796,7 @@ int main()
             break;
 
         case 7:
-            incluirMedico(medicos, tamanhoMedicos, cidades, tamanhoCidades, especialidades, tamanhoEspecialidades);
+            incluirMedico(medicos, tamanhoMedicos, cidades, tamanhoCidades, especialidades, tamanhoEspecialidades, tamanho);
 
             break;
 
