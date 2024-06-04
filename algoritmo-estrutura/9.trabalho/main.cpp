@@ -226,7 +226,7 @@ bool consultarMedicamento(struct Medicamento v[], int tamanho)
         }
     }
 
-    cout << "\nMedicamento nao encontrado!";
+    cout << "\nMedicamento nao encontrado!\n";
     return false;
 }
 
@@ -255,7 +255,7 @@ void consultarEstoque(struct Medicamento v[], int tamanho)
 
     if (!encontrouProdutoAbaixoDoMinimo)
     {
-        cout << "\nNenhum medicamento com estoque abaixo do minimo";
+        cout << "\nNenhum medicamento com estoque abaixo do minimo\n";
     }
 }
 
@@ -414,8 +414,6 @@ void lerCid(struct CID cids[], int &tamanhoCids, int &tMaximo)
             cout << "ID: ";
             cin >> novoId;
             cin.ignore();
-
-            cout << "ID invalido. O ID deve ser um numero positivo.\n";
 
             // VERIFICANDO SE O NOVO ID É VÁLIDO
             if (novoId <= 0)
@@ -583,13 +581,16 @@ void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, Cidade cidades[
             if (indice != -1)
             {
                 cout << "Descricao: " << especialidades[indice].especializacao << endl;
+                break;
             }
             else
             {
-                cout << "Especialidade invalida.";
+                cout << "Especialidade invalida.\n";
             }
 
         } while (true);
+
+        cin.ignore();
 
         do
         {
@@ -607,6 +608,8 @@ void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, Cidade cidades[
 
         } while (true);
 
+        cin.ignore();
+
         do
         {
             cout << "Telefone: ";
@@ -622,6 +625,8 @@ void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, Cidade cidades[
 
         } while (true);
 
+        cin.ignore();
+
         do
         {
             cout << "Codigo cidade: ";
@@ -635,17 +640,18 @@ void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, Cidade cidades[
             }
             else
             {
-                cout << "Cidade invalida.";
+                cout << "Cidade invalida.\n";
             }
 
         } while (true);
 
         tamanhoMedicos++;
-        cout << "\nMedico cadastrado com sucesso!" << endl;
+        cout << "\nMedico cadastrado com sucesso!\n"
+             << endl;
     }
     else
     {
-        cout << "\nLimite maximo de medicos atingido!";
+        cout << "\nLimite maximo de medicos atingido!\n";
     }
 }
 
@@ -938,7 +944,7 @@ void menu()
     cout << "\n17. Excluir paciente";
     cout << "\n18. Valor total de consultas";
     cout << "\n0. Sair";
-    cout << "\n\Operacao: ";
+    cout << "\n\nOperacao: ";
 }
 
 void agendarConsulta(struct Consulta consultas[], int &tamanhoConsultas,
@@ -1121,11 +1127,11 @@ int main()
     Medico medicos[tamanho];
     int tamanhoMedicos = 5;
 
-    medicos[0] = {1, "Felipe Gabriel", 1, "Rua amado batista 202", "18996149436", 1};
-    medicos[1] = {2, "Andrei Gabriel", 2, "Rua amado batista 202", "18996149436", 2};
-    medicos[2] = {3, "Ricardo Gabriel", 3, "Rua amado batista 202", "18996149436", 3};
-    medicos[3] = {4, "Antonio Gabriel", 4, "Rua amado batista 202", "18996149436", 4};
-    medicos[4] = {5, "Lucas Gabriel", 5, "Rua amado batista 202", "18996149436", 5};
+    medicos[0] = {1, "Felipe Gabriel", 1, "Rua amado batista 202", "18996607060", 1};
+    medicos[1] = {2, "Andrei Gabriel", 2, "Rua amado batista 203", "18996607060", 2};
+    medicos[2] = {3, "Ricardo Gabriel", 3, "Rua amado batista 204", "18996607060", 3};
+    medicos[3] = {4, "Antonio Gabriel", 4, "Rua amado batista 205", "18996607060", 4};
+    medicos[4] = {5, "Lucas Gabriel", 5, "Rua amado batista 206", "18996607060", 5};
 
     Paciente pacientes[tamanho];
     int tamanhoPacientes = 0;
