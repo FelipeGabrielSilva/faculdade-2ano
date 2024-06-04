@@ -207,18 +207,18 @@ bool consultarMedicamento(struct Medicamento v[], int tamanho)
         if (v[i].id == consulta)
         {
             cout << "\nID: " << v[i].id;
-            cout << "\nDESCRICAO: " << v[i].descricao;
-            cout << "\nESTOQUE: " << v[i].qtdEstoque;
-            cout << "\nESTOQUE MINIMO: " << v[i].estoqueMinimo;
-            cout << "\nESTOQUE MAXIMO: " << v[i].estoqueMaximo;
-            cout << "\nPRECO UNITARIO: " << v[i].precoUnitario;
-            cout << "\nPRECO TOTAL: R$" << v[i].qtdEstoque * v[i].precoUnitario << endl;
+            cout << "\nDescricao: " << v[i].descricao;
+            cout << "\nEstoque: " << v[i].qtdEstoque;
+            cout << "\nEstoque minimo: " << v[i].estoqueMinimo;
+            cout << "\nEstoque maximo: " << v[i].estoqueMaximo;
+            cout << "\nPreco unitario: " << v[i].precoUnitario;
+            cout << "\nPreco total: R$" << v[i].qtdEstoque * v[i].precoUnitario << endl;
 
             return true;
         }
     }
 
-    cout << "\nMEDICAMENTO NAO ENCONTRADO";
+    cout << "\nMedicamento nao encontrado!";
     return false;
 }
 
@@ -226,7 +226,7 @@ void consultarEstoque(struct Medicamento v[], int tamanho)
 {
     bool encontrouProdutoAbaixoDoMinimo = false;
 
-    cout << "\nPRODUTOS COM ESTOQUE ABAIXO DO MINIMO: ";
+    cout << "\nProdutos com estoque abaixo do minimo: ";
     for (int i = 0; i < tamanho; i++)
     {
         if (v[i].qtdEstoque < v[i].estoqueMinimo)
@@ -235,17 +235,17 @@ void consultarEstoque(struct Medicamento v[], int tamanho)
             int diferenca = v[i].estoqueMaximo - v[i].qtdEstoque;
 
             cout << "\nID: " << v[i].id;
-            cout << "\nDESCRICAO: " << v[i].descricao;
-            cout << "\nESTOQUE: " << v[i].qtdEstoque;
-            cout << "\nESTOQUE MAXIMO: " << v[i].estoqueMaximo;
-            cout << "\nQUANTIDADE A SER COMPRADA: " << diferenca;
-            cout << "\nVALOR DA COMPRA: R$" << v[i].precoUnitario * diferenca << endl;
+            cout << "\nDescricao: " << v[i].descricao;
+            cout << "\nEstoque: " << v[i].qtdEstoque;
+            cout << "\nEstoque maximo: " << v[i].estoqueMaximo;
+            cout << "\nQuantidade a ser comprada: " << diferenca;
+            cout << "\nValor da compra: R$" << v[i].precoUnitario * diferenca << endl;
         }
     }
 
     if (!encontrouProdutoAbaixoDoMinimo)
     {
-        cout << "\nNENHUM PRODUTO COM ESTOQUE ABAIXO DO MINIMO";
+        cout << "\nNenhum medicamento com estoque abaixo do minimo";
     }
 }
 
@@ -265,7 +265,7 @@ void lerCidade(struct Cidade cidades[], int &tamanho, int &tMaximo)
 
             if (novoId <= 0)
             {
-                cout << "ID invalido. O ID deve ser um número positivo.\n";
+                cout << "ID invalido. O ID deve ser um numero positivo.\n";
             }
             else
             {
@@ -342,7 +342,7 @@ void lerEspecialidade(struct Especialidade especialidades[], int &tamanho, int t
 
             if (novoId <= 0)
             {
-                cout << "ID inválido. O ID deve ser um número positivo.\n";
+                cout << "ID invalido. O ID deve ser um numero positivo.\n";
             }
             else
             {
@@ -423,7 +423,7 @@ void lerMedicamento(struct Medicamento medicamentos[], int &tamanhoMedicamentos,
 
             if (novoId <= 0)
             {
-                cout << "ID inválido. O ID deve ser um número positivo.\n";
+                cout << "ID invalido. O ID deve ser um numero positivo.\n";
             }
             else
             {
@@ -481,7 +481,7 @@ void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, Cidade cidades[
 
             if (novoId <= 0)
             {
-                cout << "ID inválido. O ID deve ser um número positivo.\n";
+                cout << "ID invalido. O ID deve ser um numero positivo.\n";
             }
             else
             {
@@ -1216,9 +1216,12 @@ int main()
                 cout << "\nImprimindo consultas:\n";
                 for (int i = 0; i < tamanhoConsultas; ++i)
                 {
-                    imprimirConsulta(consultas[i], pacientes, tamanhoPacientes,
-                                     medicos, tamanhoMedicos, cidades, tamanhoCidades,
-                                     medicamentos, tamanhoMedicamentos, especialidades, tamanhoEspecialidades);
+                    imprimirConsulta(consultas[i],
+                                     pacientes, tamanhoPacientes,
+                                     medicos, tamanhoMedicos,
+                                     cidades, tamanhoCidades,
+                                     medicamentos, tamanhoMedicamentos,
+                                     especialidades, tamanhoEspecialidades);
                 }
             }
             else
