@@ -62,6 +62,7 @@ struct Consulta
     int qtd_medicamento;
 };
 
+// BUSCA BINÁRIA DE CIDADE
 int buscarCidadePorId(Cidade cidades[], int tamanho, int idProcurado)
 {
     int inicio = 0;
@@ -89,6 +90,7 @@ int buscarCidadePorId(Cidade cidades[], int tamanho, int idProcurado)
     return -1;
 }
 
+// BUSCA BINÁRIA DE ESPECIALIDADE
 int buscarEspecialidadePorId(Especialidade especialidades[], int tamanho, int idProcurado)
 {
     int inicio = 0;
@@ -116,6 +118,7 @@ int buscarEspecialidadePorId(Especialidade especialidades[], int tamanho, int id
     return -1;
 }
 
+// BUSCA BINÁRIA DE CID
 int buscarCIDPorId(CID cids[], int tamanho, int idProcurado)
 {
     int inicio = 0;
@@ -142,6 +145,8 @@ int buscarCIDPorId(CID cids[], int tamanho, int idProcurado)
 
     return -1;
 }
+
+// BUSCA BINÁRIA DE MEDICAMENTO
 int buscarMedicamentoPorId(Medicamento medicamentos[], int tamanho, int idProcurado)
 {
     int inicio = 0;
@@ -169,6 +174,7 @@ int buscarMedicamentoPorId(Medicamento medicamentos[], int tamanho, int idProcur
     return -1;
 }
 
+// BUSCA BINÁRIA DE MÉDICO
 int buscarMedicoPorId(Medico medicos[], int tamanho, int idProcurado)
 {
     int inicio = 0;
@@ -196,12 +202,14 @@ int buscarMedicoPorId(Medico medicos[], int tamanho, int idProcurado)
     return -1;
 }
 
+// FUNÇÃO PARA CONSULTAR MEDICAMENTO
 bool consultarMedicamento(struct Medicamento v[], int tamanho)
 {
     int consulta;
     cout << "\nInforme o ID para consultar: ";
     cin >> consulta;
 
+    // BUSCA LINEAR PARA ENCONTRAR O MEDICAMENTO
     for (int i = 0; i < tamanho; i++)
     {
         if (v[i].id == consulta)
@@ -222,11 +230,13 @@ bool consultarMedicamento(struct Medicamento v[], int tamanho)
     return false;
 }
 
+// FUNÇÃO PARA CONSULTAR ESTOQUE DE MEDICAMENTOS
 void consultarEstoque(struct Medicamento v[], int tamanho)
 {
     bool encontrouProdutoAbaixoDoMinimo = false;
-
     cout << "\nProdutos com estoque abaixo do minimo: ";
+
+    // BUSCA LINEAR PARA CONSULTAR MEDICAMENTOS ABAIXO DO ESTOQUE MINIMO
     for (int i = 0; i < tamanho; i++)
     {
         if (v[i].qtdEstoque < v[i].estoqueMinimo)
@@ -249,11 +259,12 @@ void consultarEstoque(struct Medicamento v[], int tamanho)
     }
 }
 
-void lerCidade(struct Cidade cidades[], int &tamanho, int &tMaximo)
+// FUNÇÃO PARA LEITURA (INLCUSÃO) DE NOVAS CIDADES
+void lerCidade(struct Cidade cidades[], int &tamanhoCidades, int &tMaximo)
 {
     int novoId;
 
-    if (tamanho < tMaximo)
+    if (tamanhoCidades < tMaximo)
     {
         do
         {
@@ -263,6 +274,7 @@ void lerCidade(struct Cidade cidades[], int &tamanho, int &tMaximo)
             cin >> novoId;
             cin.ignore();
 
+            // VERIFICANDO SE O NOVO ID É VÁLIDO
             if (novoId <= 0)
             {
                 cout << "ID invalido. O ID deve ser um numero positivo.\n";
@@ -270,7 +282,7 @@ void lerCidade(struct Cidade cidades[], int &tamanho, int &tMaximo)
             else
             {
 
-                int indice = buscarCidadePorId(cidades, tamanho, novoId);
+                int indice = buscarCidadePorId(cidades, tamanhoCidades, novoId);
 
                 if (indice != -1)
                 {
@@ -284,14 +296,14 @@ void lerCidade(struct Cidade cidades[], int &tamanho, int &tMaximo)
             }
         } while (true);
 
-        cidades[tamanho].id = novoId;
+        cidades[tamanhoCidades].id = novoId;
 
         do
         {
             cout << "Nome: ";
-            getline(cin, cidades[tamanho].nome);
+            getline(cin, cidades[tamanhoCidades].nome);
 
-            if (cidades[tamanho].nome.empty())
+            if (cidades[tamanhoCidades].nome.empty())
             {
                 cout << "Nome invalido. O nome da cidade nao pode ser vazio.\n";
             }
@@ -304,10 +316,10 @@ void lerCidade(struct Cidade cidades[], int &tamanho, int &tMaximo)
         do
         {
             cout << "UF: ";
-            cin >> cidades[tamanho].uf;
+            cin >> cidades[tamanhoCidades].uf;
             cin.ignore();
 
-            if (cidades[tamanho].uf.length() != 2)
+            if (cidades[tamanhoCidades].uf.length() != 2)
             {
                 cout << "UF invalida. A UF deve ter 2 caracteres.\n";
             }
@@ -317,7 +329,7 @@ void lerCidade(struct Cidade cidades[], int &tamanho, int &tMaximo)
             }
         } while (true);
 
-        tamanho++;
+        tamanhoCidades++;
         cout << "\nCidade cadastrada com sucesso!\n";
     }
     else
@@ -326,11 +338,12 @@ void lerCidade(struct Cidade cidades[], int &tamanho, int &tMaximo)
     }
 }
 
-void lerEspecialidade(struct Especialidade especialidades[], int &tamanho, int tMaximo)
+// FUNÇÃO PARA LEITURA (INLCUSÃO) DE NOVAS ESPECIALIDADES
+void lerEspecialidade(struct Especialidade especialidades[], int &tamanhoEspecialidades, int tMaximo)
 {
     int novoId;
 
-    if (tamanho < tMaximo)
+    if (tamanhoEspecialidades < tMaximo)
     {
         do
         {
@@ -340,6 +353,7 @@ void lerEspecialidade(struct Especialidade especialidades[], int &tamanho, int t
             cin >> novoId;
             cin.ignore();
 
+            // VERIFICANDO SE O NOVO ID É VÁLIDO
             if (novoId <= 0)
             {
                 cout << "ID invalido. O ID deve ser um numero positivo.\n";
@@ -347,7 +361,7 @@ void lerEspecialidade(struct Especialidade especialidades[], int &tamanho, int t
             else
             {
 
-                int indice = buscarEspecialidadePorId(especialidades, tamanho, novoId);
+                int indice = buscarEspecialidadePorId(especialidades, tamanhoEspecialidades, novoId);
 
                 if (indice != -1)
                 {
@@ -360,14 +374,14 @@ void lerEspecialidade(struct Especialidade especialidades[], int &tamanho, int t
             }
         } while (true);
 
-        especialidades[tamanho].id = novoId;
+        especialidades[tamanhoEspecialidades].id = novoId;
 
         do
         {
             cout << "Especializacao: ";
-            getline(cin, especialidades[tamanho].especializacao);
+            getline(cin, especialidades[tamanhoEspecialidades].especializacao);
 
-            if (especialidades[tamanho].especializacao.empty())
+            if (especialidades[tamanhoEspecialidades].especializacao.empty())
             {
                 cout << "Especializacao invalido. A especializacao nao pode ser vazio.\n";
             }
@@ -377,7 +391,7 @@ void lerEspecialidade(struct Especialidade especialidades[], int &tamanho, int t
             }
         } while (true);
 
-        tamanho++;
+        tamanhoEspecialidades++;
         cout << "\nEspecialidade cadastrada com sucesso!\n";
     }
     else
@@ -386,28 +400,70 @@ void lerEspecialidade(struct Especialidade especialidades[], int &tamanho, int t
     }
 }
 
-void lerCid(struct CID cids[], int &tamanho, int &tMaximo)
+// FUNÇÃO PARA LEITURA (INLCUSÃO) DE NOVAS CIDS
+void lerCid(struct CID cids[], int &tamanhoCids, int &tMaximo)
 {
-    if (tamanho < tMaximo)
+    int novoId;
+
+    if (tamanhoCids < tMaximo)
     {
-        cout << "\nInforme os dados para o CID:\n";
+        do
+        {
+            cout << "\nInforme os dados para a CID:\n";
 
-        cout << "ID: ";
-        cin >> cids[tamanho].id;
-        cin.ignore();
+            cout << "ID: ";
+            cin >> novoId;
+            cin.ignore();
 
-        cout << "Descricao: ";
-        getline(cin, cids[tamanho].descricao);
+            cout << "ID invalido. O ID deve ser um numero positivo.\n";
 
-        tamanho++;
+            // VERIFICANDO SE O NOVO ID É VÁLIDO
+            if (novoId <= 0)
+            {
+                cout << "ID invalido. O ID deve ser um numero positivo.\n";
+            }
+            else
+            {
+                int indice = buscarCIDPorId(cids, tamanhoCids, novoId);
+
+                if (indice != -1)
+                {
+                    cout << "\nCID com esse ID  ja existe!\n";
+                }
+                else
+                {
+                    break;
+                }
+            }
+        } while (true);
+
+        cids[tamanhoCids].id = novoId;
+
+        do
+        {
+            cout << "descricao: ";
+            getline(cin, cids[tamanhoCids].descricao);
+
+            if (cids[tamanhoCids].descricao.empty())
+            {
+                cout << "Descricao invalido. A descricao nao pode ser vazia.\n";
+            }
+            else
+            {
+                break;
+            }
+        } while (true);
+
+        tamanhoCids++;
         cout << "\nCID cadastrado com sucesso!\n";
     }
     else
     {
         cout << "\nLimite maximo de CIDs atingido.\n";
-    }
+    };
 }
 
+// FUNÇÃO PARA LEITURA (INLCUSÃO) DE NOVAS MEDICAMENTOS
 void lerMedicamento(struct Medicamento medicamentos[], int &tamanhoMedicamentos, int &tMaximo)
 {
     int novoId;
@@ -421,6 +477,7 @@ void lerMedicamento(struct Medicamento medicamentos[], int &tamanhoMedicamentos,
             cin >> novoId;
             cin.ignore();
 
+            // VERIFICANDO SE O NOVO ID É VÁLIDO
             if (novoId <= 0)
             {
                 cout << "ID invalido. O ID deve ser um numero positivo.\n";
@@ -466,6 +523,7 @@ void lerMedicamento(struct Medicamento medicamentos[], int &tamanhoMedicamentos,
     }
 }
 
+// FUNÇÃO PARA LEITURA (INLCUSÃO) DE NOVOS MÉDICOS
 void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, Cidade cidades[], int tamanhoCidades, Especialidade especialidades[], int tamanhoEspecialidades, int tamanho)
 {
     int novoId;
@@ -479,6 +537,7 @@ void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, Cidade cidades[
             cin >> novoId;
             cin.ignore();
 
+            // VERIFICANDO SE O NOVO ID É VÁLIDO
             if (novoId <= 0)
             {
                 cout << "ID invalido. O ID deve ser um numero positivo.\n";
@@ -524,7 +583,6 @@ void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, Cidade cidades[
             if (indice != -1)
             {
                 cout << "Descricao: " << especialidades[indice].especializacao << endl;
-                break;
             }
             else
             {
@@ -532,7 +590,6 @@ void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, Cidade cidades[
             }
 
         } while (true);
-        cin.ignore();
 
         do
         {
@@ -592,6 +649,7 @@ void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, Cidade cidades[
     }
 }
 
+// FUNÇÃO PARA LEITURA (INLCUSÃO) DE NOVOS PACIENTES
 void incluirPaciente(struct Paciente pacientes[], int &tamanhoPacientes, Cidade cidades[], int tamanhoCidades, int tMaximo)
 {
     int novoCpf;
@@ -604,6 +662,7 @@ void incluirPaciente(struct Paciente pacientes[], int &tamanhoPacientes, Cidade 
             cout << "CPF: ";
             cin >> novoCpf;
 
+            // VERIFICANDO SE O CPF JÁ ESTÁ CADASTRADO
             bool cpfEncontrado = false;
 
             for (int i = 0; i < tamanhoPacientes; i++)
@@ -685,6 +744,7 @@ void incluirPaciente(struct Paciente pacientes[], int &tamanhoPacientes, Cidade 
     }
 }
 
+// FUNÇÃO DE EXCLUSÃO LÓGICA DE PACIENTES
 void excluirPaciente(Paciente pacientes[], int &tamanhoPacientes)
 {
     if (tamanhoPacientes == 0)
@@ -697,6 +757,7 @@ void excluirPaciente(Paciente pacientes[], int &tamanhoPacientes)
     cout << "\nInforme o CPF do paciente a ser excluido: ";
     cin >> cpfProcurado;
 
+    // VERIFICANDO SE O CPF JÁ ESTÁ CADASTRADO
     bool cpfEncontrado = false;
     int i = 0;
 
@@ -750,7 +811,6 @@ void imprimirMedicamento(Medicamento medicamento)
 void imprimirMedico(Medico medico, Cidade cidades[], int tamanhoCidades, Especialidade especialidades[], int tamanhoEspecialidades)
 {
     cout << "\nNome: " << medico.nome << endl;
-    cout << "Especialidade: ";
 
     int posicaoEspecialidade = buscarEspecialidadePorId(especialidades, tamanhoEspecialidades, medico.cod_especialidade);
     if (posicaoEspecialidade != -1)
@@ -768,7 +828,6 @@ void imprimirMedico(Medico medico, Cidade cidades[], int tamanhoCidades, Especia
     int posicaoCidade = buscarCidadePorId(cidades, tamanhoCidades, medico.cod_cidade);
     if (posicaoCidade != -1)
     {
-        cout << "Cidade: ";
         imprimirCidade(cidades[posicaoCidade]);
     }
     else
@@ -794,10 +853,12 @@ void imprimirPaciente(Paciente paciente, Cidade cidades[], int tamanhoCidades)
     }
 }
 
-void imprimirConsulta(Consulta consulta, Paciente pacientes[], int tamanhoPacientes,
+void imprimirConsulta(Consulta consulta,
+                      Paciente pacientes[], int tamanhoPacientes,
                       Medico medicos[], int tamanhoMedicos,
                       Cidade cidades[], int tamanhoCidades,
-                      Medicamento medicamentos[], int tamanhoMedicamentos, Especialidade especialidades[], int tamanhoEspecialidades)
+                      Medicamento medicamentos[], int tamanhoMedicamentos,
+                      Especialidade especialidades[], int tamanhoEspecialidades)
 {
     cout << "\nData: " << consulta.data << endl;
     cout << "Horario: " << consulta.horario << endl;
@@ -813,7 +874,7 @@ void imprimirConsulta(Consulta consulta, Paciente pacientes[], int tamanhoPacien
     }
     if (posicaoPaciente != -1)
     {
-        cout << "Paciente: ";
+        cout << "- Paciente: ";
         imprimirPaciente(pacientes[posicaoPaciente], cidades, tamanhoCidades);
     }
     else
@@ -824,7 +885,7 @@ void imprimirConsulta(Consulta consulta, Paciente pacientes[], int tamanhoPacien
     int posicaoMedico = buscarMedicoPorId(medicos, tamanhoMedicos, consulta.cod_medico);
     if (posicaoMedico != -1)
     {
-        cout << "Medico: ";
+        cout << "- Medico: ";
         imprimirMedico(medicos[posicaoMedico], cidades, tamanhoCidades,
                        especialidades, tamanhoEspecialidades);
     }
@@ -876,8 +937,8 @@ void menu()
     cout << "\n16. Imprimir consulta";
     cout << "\n17. Excluir paciente";
     cout << "\n18. Valor total de consultas";
-    cout << "\n0. SAIR";
-    cout << "\n\nOPERACAO: ";
+    cout << "\n0. Sair";
+    cout << "\n\Operacao: ";
 }
 
 void agendarConsulta(struct Consulta consultas[], int &tamanhoConsultas,
@@ -923,6 +984,14 @@ void agendarConsulta(struct Consulta consultas[], int &tamanhoConsultas,
                 cout << "Nome: " << medicos[posicaoMedico].nome << endl;
                 cout << "Especialidade: " << especialidades[buscarEspecialidadePorId(especialidades, tamanhoEspecialidades, medicos[posicaoMedico].cod_especialidade)].especializacao << endl;
 
+                string data;
+                cout << "\nInforme a data (DD/MM/AAAA): ";
+                cin >> data;
+
+                string hora;
+                cout << "\nInforme a hora (HH:MM): ";
+                cin >> hora;
+
                 int codCid;
                 cout << "\nInforme o codigo do CID: ";
                 cin >> codCid;
@@ -956,6 +1025,8 @@ void agendarConsulta(struct Consulta consultas[], int &tamanhoConsultas,
 
                             consultas[tamanhoConsultas].cod_paciente = cpfPaciente;
                             consultas[tamanhoConsultas].cod_medico = codMedico;
+                            consultas[tamanhoConsultas].data = data;
+                            consultas[tamanhoConsultas].horario = hora;
                             consultas[tamanhoConsultas].cod_medicamento = codMedicamento;
                             consultas[tamanhoConsultas].qtd_medicamento = qtdeMedicamento;
 
@@ -1246,7 +1317,7 @@ int main()
             break;
 
         default:
-            cout << "\nOpcao invalida!\n";
+            cout << "\nFim do programa!\n";
             break;
         }
     }
