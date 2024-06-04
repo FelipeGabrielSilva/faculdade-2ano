@@ -62,7 +62,7 @@ struct Consulta
     int qtd_medicamento;
 };
 
-int buscarCidadePorId(const Cidade cidades[], int tamanho, int idProcurado)
+int buscarCidadePorId(Cidade cidades[], int tamanho, int idProcurado)
 {
     int inicio = 0;
     int fim = tamanho - 1;
@@ -89,7 +89,7 @@ int buscarCidadePorId(const Cidade cidades[], int tamanho, int idProcurado)
     return -1;
 }
 
-int buscarEspecialidadePorId(const Especialidade especialidades[], int tamanho, int idProcurado)
+int buscarEspecialidadePorId(Especialidade especialidades[], int tamanho, int idProcurado)
 {
     int inicio = 0;
     int fim = tamanho - 1;
@@ -116,7 +116,7 @@ int buscarEspecialidadePorId(const Especialidade especialidades[], int tamanho, 
     return -1;
 }
 
-int buscarCIDPorId(const CID cids[], int tamanho, int idProcurado)
+int buscarCIDPorId(CID cids[], int tamanho, int idProcurado)
 {
     int inicio = 0;
     int fim = tamanho - 1;
@@ -142,7 +142,7 @@ int buscarCIDPorId(const CID cids[], int tamanho, int idProcurado)
 
     return -1;
 }
-int buscarMedicamentoPorId(const Medicamento medicamentos[], int tamanho, int idProcurado)
+int buscarMedicamentoPorId(Medicamento medicamentos[], int tamanho, int idProcurado)
 {
     int inicio = 0;
     int fim = tamanho - 1;
@@ -169,7 +169,7 @@ int buscarMedicamentoPorId(const Medicamento medicamentos[], int tamanho, int id
     return -1;
 }
 
-int buscarMedicoPorId(const Medico medicos[], int tamanho, int idProcurado)
+int buscarMedicoPorId(Medico medicos[], int tamanho, int idProcurado)
 {
     int inicio = 0;
     int fim = tamanho - 1;
@@ -322,7 +322,7 @@ void lerCidade(struct Cidade cidades[], int &tamanho, int &tMaximo)
     }
     else
     {
-        cout << "\nLimite máximo de cidades atingido.\n";
+        cout << "\nLimite maximo de cidades atingido.\n";
     }
 }
 
@@ -352,7 +352,6 @@ void lerEspecialidade(struct Especialidade especialidades[], int &tamanho, int t
                 if (indice != -1)
                 {
                     cout << "\nEspecialidade com esse ID  ja existe!\n";
-                    break;
                 }
                 else
                 {
@@ -405,45 +404,69 @@ void lerCid(struct CID cids[], int &tamanho, int &tMaximo)
     }
     else
     {
-        cout << "\nLimite máximo de CIDs atingido.\n";
+        cout << "\nLimite maximo de CIDs atingido.\n";
     }
 }
 
-void lerMedicamento(struct Medicamento medicamentos[], int &tamanho, int &tMaximo)
+void lerMedicamento(struct Medicamento medicamentos[], int &tamanhoMedicamentos, int &tMaximo)
 {
-    if (tamanho < tMaximo)
-    {
-        cout << "\nInforme os dados para o medicamento:\n";
+    int novoId;
 
-        cout << "ID: ";
-        cin >> medicamentos[tamanho].id;
-        cin.ignore();
+    if (tamanhoMedicamentos < tMaximo)
+    {
+        do
+        {
+            cout << "\nInforme os dados para o medicamento:\n";
+            cout << "ID: ";
+            cin >> novoId;
+            cin.ignore();
+
+            if (novoId <= 0)
+            {
+                cout << "ID inválido. O ID deve ser um número positivo.\n";
+            }
+            else
+            {
+                int indice = buscarMedicamentoPorId(medicamentos, tamanhoMedicamentos, novoId);
+
+                if (indice != -1)
+                {
+                    cout << "\nMedicamento com esse ID  ja existe!\n";
+                }
+                else
+                {
+                    break;
+                }
+            }
+        } while (true);
+
+        medicamentos[tamanhoMedicamentos].id = novoId;
 
         cout << "Descricao: ";
-        getline(cin, medicamentos[tamanho].descricao);
+        getline(cin, medicamentos[tamanhoMedicamentos].descricao);
 
         cout << "Quantidade em estoque: ";
-        cin >> medicamentos[tamanho].qtdEstoque;
+        cin >> medicamentos[tamanhoMedicamentos].qtdEstoque;
 
         cout << "Estoque minimo: ";
-        cin >> medicamentos[tamanho].estoqueMinimo;
+        cin >> medicamentos[tamanhoMedicamentos].estoqueMinimo;
 
         cout << "Estoque maximo: ";
-        cin >> medicamentos[tamanho].estoqueMaximo;
+        cin >> medicamentos[tamanhoMedicamentos].estoqueMaximo;
 
         cout << "Preco unitario: R$";
-        cin >> medicamentos[tamanho].precoUnitario;
+        cin >> medicamentos[tamanhoMedicamentos].precoUnitario;
 
-        tamanho++;
+        tamanhoMedicamentos++;
         cout << "\nMedicamento cadastrado com sucesso!\n";
     }
     else
     {
-        cout << "\nLimite máximo de medicamentos atingido.\n";
+        cout << "\nLimite maximo de medicamentos atingido.\n";
     }
 }
 
-void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, const Cidade cidades[], int tamanhoCidades, const Especialidade especialidades[], int tamanhoEspecialidades, int tamanho)
+void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, Cidade cidades[], int tamanhoCidades, Especialidade especialidades[], int tamanhoEspecialidades, int tamanho)
 {
     int novoId;
 
@@ -569,7 +592,7 @@ void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, const Cidade ci
     }
 }
 
-void incluirPaciente(struct Paciente pacientes[], int &tamanhoPacientes, const Cidade cidades[], int tamanhoCidades, int tMaximo)
+void incluirPaciente(struct Paciente pacientes[], int &tamanhoPacientes, Cidade cidades[], int tamanhoCidades, int tMaximo)
 {
     int novoCpf;
     if (tamanhoPacientes < tMaximo)
@@ -666,7 +689,7 @@ void excluirPaciente(Paciente pacientes[], int &tamanhoPacientes)
 {
     if (tamanhoPacientes == 0)
     {
-        cout << "\nNão ha pacientes cadastrados!\n";
+        cout << "\nnao ha pacientes cadastrados!\n";
         return;
     }
 
@@ -700,76 +723,31 @@ void excluirPaciente(Paciente pacientes[], int &tamanhoPacientes)
     tamanhoPacientes--;
 }
 
-void incluirConsulta(struct Consulta consultas[], int &tamanhoConsultas,
-                     const Paciente pacientes[], int tamanhoPacientes,
-                     const Medico medicos[], int tamanhoMedicos,
-                     const Cidade cidades[], int tamanhoCidades,
-                     const Medicamento medicamentos[], int tamanhoMedicamentos)
-{
-    if (tamanhoConsultas < 10)
-    {
-        cout << "\nInforme os dados para a consulta:\n";
-
-        cout << "CPF do paciente: ";
-        cin >> consultas[tamanhoConsultas].cod_paciente;
-        cin.ignore();
-
-        cout << "ID do medico: ";
-        cin >> consultas[tamanhoConsultas].cod_medico;
-        cin.ignore();
-
-        cout << "Data (AAAA-MM-DD): ";
-        getline(cin, consultas[tamanhoConsultas].data);
-
-        cout << "Horario (HH:MM): ";
-        getline(cin, consultas[tamanhoConsultas].horario);
-
-        cout << "Código da Cidade: ";
-        cin >> consultas[tamanhoConsultas].cod_cidade;
-        cin.ignore();
-
-        cout << "ID do Medicamento: ";
-        cin >> consultas[tamanhoConsultas].cod_medicamento;
-        cin.ignore();
-
-        cout << "Quantidade do Medicamento: ";
-        cin >> consultas[tamanhoConsultas].qtd_medicamento;
-        cin.ignore();
-
-        tamanhoConsultas++;
-        cout << "\nConsulta cadastrada com sucesso!\n";
-    }
-    else
-    {
-        cout << "\nLimite máximo de consultas atingido.\n";
-    }
-}
-
-void imprimirCidade(const Cidade cidade)
+void imprimirCidade(Cidade cidade)
 {
     cout << "Cidade: " << cidade.nome << " (" << cidade.uf << ")" << endl;
 }
 
-void imprimirEspecialidade(const Especialidade especialidade)
+void imprimirEspecialidade(Especialidade especialidade)
 {
     cout << "Especialidade: " << especialidade.especializacao << endl;
 }
 
-void imprimirCID(const CID cid)
+void imprimirCID(CID cid)
 {
     cout << "CID: " << cid.descricao << endl;
 }
 
-void imprimirMedicamento(const Medicamento medicamento)
+void imprimirMedicamento(Medicamento medicamento)
 {
-    cout << "Medicamento: " << medicamento.descricao << endl;
-    cout << "Quantidade em Estoque: " << medicamento.qtdEstoque << endl;
-    cout << "Estoque Mínimo: " << medicamento.estoqueMinimo << endl;
-    cout << "Estoque Máximo: " << medicamento.estoqueMaximo << endl;
-    cout << "Preço Unitário: R$ " << medicamento.precoUnitario << endl;
+    cout << "\nMedicamento: " << medicamento.descricao << endl;
+    cout << "Quantidade em estoque: " << medicamento.qtdEstoque << endl;
+    cout << "Estoque minimo: " << medicamento.estoqueMinimo << endl;
+    cout << "Estoque maximo: " << medicamento.estoqueMaximo << endl;
+    cout << "Preco unitario: R$ " << medicamento.precoUnitario << endl;
 }
 
-void imprimirMedico(const Medico medico, const Cidade cidades[], int tamanhoCidades, Especialidade especialidades[], int tamanhoEspecialidades)
+void imprimirMedico(Medico medico, Cidade cidades[], int tamanhoCidades, Especialidade especialidades[], int tamanhoEspecialidades)
 {
     cout << "\nNome: " << medico.nome << endl;
     cout << "Especialidade: ";
@@ -799,7 +777,7 @@ void imprimirMedico(const Medico medico, const Cidade cidades[], int tamanhoCida
     }
 }
 
-void imprimirPaciente(const Paciente paciente, const Cidade cidades[], int tamanhoCidades)
+void imprimirPaciente(Paciente paciente, Cidade cidades[], int tamanhoCidades)
 {
     cout << "\nCPF: " << paciente.cpf << endl;
     cout << "Nome: " << paciente.nome << endl;
@@ -816,10 +794,10 @@ void imprimirPaciente(const Paciente paciente, const Cidade cidades[], int taman
     }
 }
 
-void imprimirConsulta(const Consulta consulta, const Paciente pacientes[], int tamanhoPacientes,
-                      const Medico medicos[], int tamanhoMedicos,
-                      const Cidade cidades[], int tamanhoCidades,
-                      const Medicamento medicamentos[], int tamanhoMedicamentos, Especialidade especialidades[], int tamanhoEspecialidades)
+void imprimirConsulta(Consulta consulta, Paciente pacientes[], int tamanhoPacientes,
+                      Medico medicos[], int tamanhoMedicos,
+                      Cidade cidades[], int tamanhoCidades,
+                      Medicamento medicamentos[], int tamanhoMedicamentos, Especialidade especialidades[], int tamanhoEspecialidades)
 {
     cout << "\nData: " << consulta.data << endl;
     cout << "Horario: " << consulta.horario << endl;
@@ -888,7 +866,7 @@ void menu()
     cout << "\n6. Consultar estoque";
     cout << "\n7. Cadastrar medico";
     cout << "\n8. Cadastrar paciente";
-    cout << "\n9. Cadastrar consulta";
+    cout << "\n9. Agendar consulta";
     cout << "\n10. Imprimir cidade";
     cout << "\n11. Imprimir especialidade";
     cout << "\n12. Imprimir cid";
@@ -897,8 +875,138 @@ void menu()
     cout << "\n15. Imprimir paciente";
     cout << "\n16. Imprimir consulta";
     cout << "\n17. Excluir paciente";
+    cout << "\n18. Valor total de consultas";
     cout << "\n0. SAIR";
     cout << "\n\nOPERACAO: ";
+}
+
+void agendarConsulta(struct Consulta consultas[], int &tamanhoConsultas,
+                     Paciente pacientes[], int tamanhoPacientes,
+                     Medico medicos[], int tamanhoMedicos,
+                     Cidade cidades[], int tamanhoCidades,
+                     Medicamento medicamentos[], int tamanhoMedicamentos,
+                     Especialidade especialidades[], int tamanhoEspecialidades, CID cids[], int tamanhoCids)
+{
+    if (tamanhoConsultas < 10)
+    {
+        int cpfPaciente;
+        cout << "\nInforme o CPF do paciente: ";
+        cin >> cpfPaciente;
+        cin.ignore();
+
+        int posicaoPaciente = -1;
+        for (int i = 0; i < tamanhoPacientes; ++i)
+        {
+            if (pacientes[i].cpf == cpfPaciente)
+            {
+                posicaoPaciente = i;
+                break;
+            }
+        }
+
+        if (posicaoPaciente != -1)
+        {
+            cout << "\nPaciente encontrado:" << endl;
+            cout << "Nome: " << pacientes[posicaoPaciente].nome << endl;
+            cout << "Cidade: " << cidades[buscarCidadePorId(cidades, tamanhoCidades, pacientes[posicaoPaciente].cod_cidade)].nome << endl;
+            cout << "UF: " << cidades[buscarCidadePorId(cidades, tamanhoCidades, pacientes[posicaoPaciente].cod_cidade)].uf << endl;
+
+            int codMedico;
+            cout << "\nInforme o codigo do medico: ";
+            cin >> codMedico;
+            cin.ignore();
+
+            int posicaoMedico = buscarMedicoPorId(medicos, tamanhoMedicos, codMedico);
+            if (posicaoMedico != -1)
+            {
+                cout << "\nMedico encontrado:" << endl;
+                cout << "Nome: " << medicos[posicaoMedico].nome << endl;
+                cout << "Especialidade: " << especialidades[buscarEspecialidadePorId(especialidades, tamanhoEspecialidades, medicos[posicaoMedico].cod_especialidade)].especializacao << endl;
+
+                int codCid;
+                cout << "\nInforme o codigo do CID: ";
+                cin >> codCid;
+                cin.ignore();
+
+                int posicaoCid = buscarCIDPorId(cids, tamanhoCids, codCid);
+                if (posicaoCid != -1)
+                {
+                    cout << "\nCID encontrado:" << endl;
+                    cout << "Descricao: " << cids[posicaoCid].descricao << endl;
+
+                    int codMedicamento;
+                    cout << "\nInforme o codigo do medicamento: ";
+                    cin >> codMedicamento;
+                    cin.ignore();
+
+                    int posicaoMedicamento = buscarMedicamentoPorId(medicamentos, tamanhoMedicamentos, codMedicamento);
+                    if (posicaoMedicamento != -1)
+                    {
+                        cout << "\nMedicamento encontrado:" << endl;
+                        cout << "Descricao: " << medicamentos[posicaoMedicamento].descricao << endl;
+
+                        int qtdeMedicamento;
+                        cout << "\nInforme a quantidade do medicamento: ";
+                        cin >> qtdeMedicamento;
+                        cin.ignore();
+
+                        if (qtdeMedicamento <= medicamentos[posicaoMedicamento].qtdEstoque)
+                        {
+                            medicamentos[posicaoMedicamento].qtdEstoque -= qtdeMedicamento;
+
+                            consultas[tamanhoConsultas].cod_paciente = cpfPaciente;
+                            consultas[tamanhoConsultas].cod_medico = codMedico;
+                            consultas[tamanhoConsultas].cod_medicamento = codMedicamento;
+                            consultas[tamanhoConsultas].qtd_medicamento = qtdeMedicamento;
+
+                            tamanhoConsultas++;
+                            cout << "\nConsulta agendada com sucesso!\n";
+                        }
+                        else
+                        {
+                            cout << "\nQuantidade em estoque insuficiente!\n";
+                        }
+                    }
+                    else
+                    {
+                        cout << "\nMedicamento nao encontrado!\n";
+                    }
+                }
+                else
+                {
+                    cout << "\nCID nao encontrado!\n";
+                }
+            }
+            else
+            {
+                cout << "\nMedico nao encontrado!\n";
+            }
+        }
+        else
+        {
+            cout << "\nPaciente nao encontrado!\n";
+        }
+    }
+    else
+    {
+        cout << "\nLimite maximo de consultas atingido.\n";
+    }
+}
+
+void calcularValorTotalArrecadado(Consulta consultas[], int tamanhoConsultas, Medicamento medicamentos[], int tamanhoMedicamentos)
+{
+    float valorTotal = 0;
+    for (int i = 0; i < tamanhoConsultas; i++)
+    {
+        valorTotal += 100;
+
+        int posicaoMedicamento = buscarMedicamentoPorId(medicamentos, tamanhoMedicamentos, consultas[i].cod_medicamento);
+        if (posicaoMedicamento != -1)
+        {
+            valorTotal += consultas[i].qtd_medicamento * medicamentos[posicaoMedicamento].precoUnitario;
+        }
+    }
+    cout << "\nValor total arrecadado: R$" << valorTotal << endl;
 }
 
 int main()
@@ -1002,10 +1110,9 @@ int main()
             break;
 
         case 9:
-            incluirConsulta(consultas, tamanhoConsultas, pacientes, tamanhoPacientes,
+            agendarConsulta(consultas, tamanhoConsultas, pacientes, tamanhoPacientes,
                             medicos, tamanhoMedicos, cidades, tamanhoCidades,
-                            medicamentos, tamanhoMedicamentos);
-
+                            medicamentos, tamanhoMedicamentos, especialidades, tamanhoEspecialidades, cids, tamanhoCids);
             break;
 
         case 10:
@@ -1129,6 +1236,10 @@ int main()
             {
                 cout << "\nNenhum paciente cadastrado.\n";
             }
+            break;
+
+        case 18:
+            calcularValorTotalArrecadado(consultas, tamanhoConsultas, medicamentos, tamanhoMedicamentos);
             break;
 
         default:
