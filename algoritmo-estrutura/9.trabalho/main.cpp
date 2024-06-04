@@ -196,25 +196,6 @@ int buscarMedicoPorId(const Medico medicos[], int tamanho, int idProcurado)
     return -1;
 }
 
-int buscarPaciente(const Paciente pacientes[], int tamanhoPacientes, int cpfProcurado)
-{
-    if (tamanhoPacientes == 0)
-    {
-        cout << "Não há pacientes cadastrados!" << endl;
-        return -1; // Retorna -1 para indicar que o paciente não foi encontrado
-    }
-    else
-    {
-        for (int i = 0; i < tamanhoPacientes; i++)
-        { // Itera até o tamanho real do array
-            if (pacientes[i].cpf == cpfProcurado)
-            {
-                return i; // Retorna o índice do paciente encontrado
-            }
-        }
-    }
-}
-
 bool consultarMedicamento(struct Medicamento v[], int tamanho)
 {
     int consulta;
@@ -284,21 +265,20 @@ void lerCidade(struct Cidade cidades[], int &tamanho, int &tMaximo)
 
             if (novoId <= 0)
             {
-                cout << "ID inválido. O ID deve ser um número positivo.\n";
+                cout << "ID invalido. O ID deve ser um número positivo.\n";
             }
             else
             {
-                // Utiliza a função de busca para verificar se o ID  ja existe
+
                 int indice = buscarCidadePorId(cidades, tamanho, novoId);
 
-                // Se o índice for válido, significa que o ID  ja existe
                 if (indice != -1)
                 {
                     cout << "\nCidade com esse ID  ja existe!\n";
                 }
                 else
                 {
-                    // Se o ID é válido e não existe, sai do loop
+
                     break;
                 }
             }
@@ -306,7 +286,6 @@ void lerCidade(struct Cidade cidades[], int &tamanho, int &tMaximo)
 
         cidades[tamanho].id = novoId;
 
-        // Validação do Nome (nao permite nome vazio)
         do
         {
             cout << "Nome: ";
@@ -314,28 +293,27 @@ void lerCidade(struct Cidade cidades[], int &tamanho, int &tMaximo)
 
             if (cidades[tamanho].nome.empty())
             {
-                cout << "Nome inválido. O nome da cidade nao pode ser vazio.\n";
+                cout << "Nome invalido. O nome da cidade nao pode ser vazio.\n";
             }
             else
             {
-                break; // Sai do loop se o nome for válido
+                break;
             }
         } while (true);
 
-        // Validação da UF (assumindo UF com 2 caracteres)
         do
         {
             cout << "UF: ";
             cin >> cidades[tamanho].uf;
-            cin.ignore(); // Limpa o buffer do cin
+            cin.ignore();
 
             if (cidades[tamanho].uf.length() != 2)
             {
-                cout << "UF inválida. A UF deve ter 2 caracteres.\n";
+                cout << "UF invalida. A UF deve ter 2 caracteres.\n";
             }
             else
             {
-                break; // Sai do loop se a UF for válida
+                break;
             }
         } while (true);
 
@@ -368,10 +346,9 @@ void lerEspecialidade(struct Especialidade especialidades[], int &tamanho, int t
             }
             else
             {
-                // Utiliza a função de busca para verificar se o ID  ja existe
+
                 int indice = buscarEspecialidadePorId(especialidades, tamanho, novoId);
 
-                // Se o índice for válido, significa que o ID  ja existe
                 if (indice != -1)
                 {
                     cout << "\nEspecialidade com esse ID  ja existe!\n";
@@ -386,7 +363,6 @@ void lerEspecialidade(struct Especialidade especialidades[], int &tamanho, int t
 
         especialidades[tamanho].id = novoId;
 
-        // Validação do Especialidade (nao permite nome vazio)
         do
         {
             cout << "Especializacao: ";
@@ -398,7 +374,7 @@ void lerEspecialidade(struct Especialidade especialidades[], int &tamanho, int t
             }
             else
             {
-                break; // Sai do loop se o nome for válido
+                break;
             }
         } while (true);
 
@@ -511,7 +487,7 @@ void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, const Cidade ci
             }
             else
             {
-                break; // Sai do loop se o nome for válido
+                break;
             }
 
         } while (true);
@@ -561,7 +537,7 @@ void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, const Cidade ci
             }
             else
             {
-                break; // Sai do loop se o nome for válido
+                break;
             }
 
         } while (true);
@@ -604,11 +580,19 @@ void incluirPaciente(struct Paciente pacientes[], int &tamanhoPacientes, const C
 
             cout << "CPF: ";
             cin >> novoCpf;
-            cin.ignore();
 
-            int indice = buscarPaciente(pacientes, tamanhoPacientes, tMaximo, novoCpf);
+            bool cpfEncontrado = false;
 
-            if (indice != -1)
+            for (int i = 0; i < tamanhoPacientes; i++)
+            {
+                if (pacientes[i].cpf == novoCpf)
+                {
+                    cpfEncontrado = true;
+                    break;
+                }
+            }
+
+            if (cpfEncontrado)
             {
                 cout << "\nPaciente com o CPF ja cadastrado!";
             }
@@ -619,6 +603,7 @@ void incluirPaciente(struct Paciente pacientes[], int &tamanhoPacientes, const C
         } while (true);
 
         pacientes[tamanhoPacientes].cpf = novoCpf;
+        cin.ignore();
 
         do
         {
@@ -627,7 +612,7 @@ void incluirPaciente(struct Paciente pacientes[], int &tamanhoPacientes, const C
 
             if (pacientes[tamanhoPacientes].nome.empty())
             {
-                cout << "Nome inválido. O nome do paciente nao pode ser vazio.\n";
+                cout << "Nome invalido. O nome do paciente nao pode ser vazio.\n";
             }
             else
             {
@@ -668,12 +653,51 @@ void incluirPaciente(struct Paciente pacientes[], int &tamanhoPacientes, const C
 
         } while (true);
 
+        tamanhoPacientes++;
         cout << "\nPaciente cadastrado com sucesso!\n";
     }
     else
     {
-        cout << "\nLimite máximo de pacientes atingido.\n";
+        cout << "\nLimite maximo de pacientes atingido.\n";
     }
+}
+
+void excluirPaciente(Paciente pacientes[], int &tamanhoPacientes)
+{
+    if (tamanhoPacientes == 0)
+    {
+        cout << "\nNão ha pacientes cadastrados!\n";
+        return;
+    }
+
+    int cpfProcurado;
+    cout << "\nInforme o CPF do paciente a ser excluido: ";
+    cin >> cpfProcurado;
+
+    bool cpfEncontrado = false;
+    int i = 0;
+
+    for (; i < tamanhoPacientes; i++)
+    {
+        if (pacientes[i].cpf == cpfProcurado)
+        {
+            cpfEncontrado = true;
+            break;
+        }
+    }
+
+    if (cpfEncontrado)
+    {
+        pacientes[i] = pacientes[i + 1];
+
+        cout << "\nPaciente excluido com sucesso!\n";
+    }
+    else
+    {
+        cout << "\nPaciente nao encontrado!\n";
+    }
+
+    tamanhoPacientes--;
 }
 
 void incluirConsulta(struct Consulta consultas[], int &tamanhoConsultas,
@@ -711,9 +735,6 @@ void incluirConsulta(struct Consulta consultas[], int &tamanhoConsultas,
         cout << "Quantidade do Medicamento: ";
         cin >> consultas[tamanhoConsultas].qtd_medicamento;
         cin.ignore();
-
-        // Validações (paciente, medico, cidade, medicamento)
-        // ... (implemente as validações aqui)
 
         tamanhoConsultas++;
         cout << "\nConsulta cadastrada com sucesso!\n";
@@ -753,7 +774,6 @@ void imprimirMedico(const Medico medico, const Cidade cidades[], int tamanhoCida
     cout << "\nNome: " << medico.nome << endl;
     cout << "Especialidade: ";
 
-    // Busca a especialidade do medico
     int posicaoEspecialidade = buscarEspecialidadePorId(especialidades, tamanhoEspecialidades, medico.cod_especialidade);
     if (posicaoEspecialidade != -1)
     {
@@ -767,7 +787,6 @@ void imprimirMedico(const Medico medico, const Cidade cidades[], int tamanhoCida
     cout << "Endereco: " << medico.endereco << endl;
     cout << "Telefone: " << medico.telefone << endl;
 
-    // Busca a cidade do medico
     int posicaoCidade = buscarCidadePorId(cidades, tamanhoCidades, medico.cod_cidade);
     if (posicaoCidade != -1)
     {
@@ -786,11 +805,9 @@ void imprimirPaciente(const Paciente paciente, const Cidade cidades[], int taman
     cout << "Nome: " << paciente.nome << endl;
     cout << "Endereco: " << paciente.endereco << endl;
 
-    // Busca a cidade do paciente
     int posicaoCidade = buscarCidadePorId(cidades, tamanhoCidades, paciente.cod_cidade);
     if (posicaoCidade != -1)
     {
-        cout << "Cidade: ";
         imprimirCidade(cidades[posicaoCidade]);
     }
     else
@@ -799,7 +816,6 @@ void imprimirPaciente(const Paciente paciente, const Cidade cidades[], int taman
     }
 }
 
-// Função para imprimir dados da consulta
 void imprimirConsulta(const Consulta consulta, const Paciente pacientes[], int tamanhoPacientes,
                       const Medico medicos[], int tamanhoMedicos,
                       const Cidade cidades[], int tamanhoCidades,
@@ -808,7 +824,6 @@ void imprimirConsulta(const Consulta consulta, const Paciente pacientes[], int t
     cout << "\nData: " << consulta.data << endl;
     cout << "Horario: " << consulta.horario << endl;
 
-    // Busca o paciente da consulta
     int posicaoPaciente = -1;
     for (int i = 0; i < tamanhoPacientes; ++i)
     {
@@ -828,7 +843,6 @@ void imprimirConsulta(const Consulta consulta, const Paciente pacientes[], int t
         cout << "Paciente nao encontrado!" << endl;
     }
 
-    // Busca o médico da consulta
     int posicaoMedico = buscarMedicoPorId(medicos, tamanhoMedicos, consulta.cod_medico);
     if (posicaoMedico != -1)
     {
@@ -841,7 +855,6 @@ void imprimirConsulta(const Consulta consulta, const Paciente pacientes[], int t
         cout << "Medico nao encontrado!" << endl;
     }
 
-    // Busca a cidade da consulta
     int posicaoCidade = buscarCidadePorId(cidades, tamanhoCidades, consulta.cod_cidade);
     if (posicaoCidade != -1)
     {
@@ -853,7 +866,6 @@ void imprimirConsulta(const Consulta consulta, const Paciente pacientes[], int t
         cout << "Cidade nao encontrada!" << endl;
     }
 
-    // Busca o medicamento da consulta
     int posicaoMedicamento = buscarMedicamentoPorId(medicamentos, tamanhoMedicamentos, consulta.cod_medicamento);
     if (posicaoMedicamento != -1)
     {
@@ -884,6 +896,7 @@ void menu()
     cout << "\n14. Imprimir medico";
     cout << "\n15. Imprimir paciente";
     cout << "\n16. Imprimir consulta";
+    cout << "\n17. Excluir paciente";
     cout << "\n0. SAIR";
     cout << "\n\nOPERACAO: ";
 }
@@ -996,7 +1009,7 @@ int main()
             break;
 
         case 10:
-            // Imprimir cidade
+
             if (tamanhoCidades > 0)
             {
                 cout << "\nImprimindo cidades:\n";
@@ -1012,7 +1025,7 @@ int main()
             break;
 
         case 11:
-            // Imprimir especialidade
+
             if (tamanhoEspecialidades > 0)
             {
                 cout << "\nImprimindo especialidades:\n";
@@ -1028,7 +1041,7 @@ int main()
             break;
 
         case 12:
-            // Imprimir cid
+
             if (tamanhoCids > 0)
             {
                 cout << "\nImprimindo CIDs:\n";
@@ -1044,7 +1057,7 @@ int main()
             break;
 
         case 13:
-            // Imprimir medicamento
+
             if (tamanhoMedicamentos > 0)
             {
                 cout << "\nImprimindo medicamentos:\n";
@@ -1060,7 +1073,6 @@ int main()
             break;
 
         case 14:
-            // Imprimir medico
             if (tamanhoMedicos > 0)
             {
                 cout << "\nImprimindo medicos:\n";
@@ -1075,9 +1087,8 @@ int main()
             }
             break;
 
-            // Imprimir paciente
         case 15:
-            // Imprimir paciente
+
             if (tamanhoPacientes > 0)
             {
                 cout << "\nImprimindo pacientes:\n";
@@ -1092,9 +1103,7 @@ int main()
             }
             break;
 
-        // Imprimir consulta
         case 16:
-            // Imprimir consulta
             if (tamanhoConsultas > 0)
             {
                 cout << "\nImprimindo consultas:\n";
@@ -1108,6 +1117,17 @@ int main()
             else
             {
                 cout << "\nNenhuma consulta cadastrada.\n";
+            }
+            break;
+
+        case 17:
+            if (tamanhoPacientes > 0)
+            {
+                excluirPaciente(pacientes, tamanhoPacientes);
+            }
+            else
+            {
+                cout << "\nNenhum paciente cadastrado.\n";
             }
             break;
 
