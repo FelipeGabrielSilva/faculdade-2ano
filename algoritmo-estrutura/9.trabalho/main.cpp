@@ -203,8 +203,9 @@ int buscarMedicoPorId(Medico medicos[], int tamanho, int idProcurado)
 }
 
 // FUNÇÃO PARA CONSULTAR MEDICAMENTO
-bool consultarMedicamento(struct Medicamento v[], int tamanho)
+void consultarMedicamento(struct Medicamento v[], int tamanho)
 {
+    bool encontrado = false;
     int consulta;
     cout << "\nInforme o ID para consultar: ";
     cin >> consulta;
@@ -214,6 +215,8 @@ bool consultarMedicamento(struct Medicamento v[], int tamanho)
     {
         if (v[i].id == consulta)
         {
+            encontrado = true;
+
             cout << "\nID: " << v[i].id;
             cout << "\nDescricao: " << v[i].descricao;
             cout << "\nEstoque: " << v[i].qtdEstoque;
@@ -221,19 +224,19 @@ bool consultarMedicamento(struct Medicamento v[], int tamanho)
             cout << "\nEstoque maximo: " << v[i].estoqueMaximo;
             cout << "\nPreco unitario: " << v[i].precoUnitario;
             cout << "\nPreco total: R$" << v[i].qtdEstoque * v[i].precoUnitario << endl;
-
-            return true;
         }
     }
 
-    cout << "\nMedicamento nao encontrado!\n";
-    return false;
+    if (!encontrado)
+    {
+        cout << "\nMedicamento nao encontrado!\n";
+    }
 }
 
 // FUNÇÃO PARA CONSULTAR ESTOQUE DE MEDICAMENTOS
 void consultarEstoque(struct Medicamento v[], int tamanho)
 {
-    bool encontrouProdutoAbaixoDoMinimo = false;
+    bool abaixoMinimo = false;
     cout << "\nProdutos com estoque abaixo do minimo: ";
 
     // BUSCA LINEAR PARA CONSULTAR MEDICAMENTOS ABAIXO DO ESTOQUE MINIMO
@@ -241,7 +244,7 @@ void consultarEstoque(struct Medicamento v[], int tamanho)
     {
         if (v[i].qtdEstoque < v[i].estoqueMinimo)
         {
-            encontrouProdutoAbaixoDoMinimo = true;
+            abaixoMinimo = true;
             int diferenca = v[i].estoqueMaximo - v[i].qtdEstoque;
 
             cout << "\nID: " << v[i].id;
@@ -253,13 +256,13 @@ void consultarEstoque(struct Medicamento v[], int tamanho)
         }
     }
 
-    if (!encontrouProdutoAbaixoDoMinimo)
+    if (!abaixoMinimo)
     {
         cout << "\nNenhum medicamento com estoque abaixo do minimo\n";
     }
 }
 
-// FUNÇÃO PARA LEITURA (INLCUSÃO) DE NOVAS CIDADES
+// FUNÇÃO PARA LEITURA DE NOVAS CIDADES
 void lerCidade(struct Cidade cidades[], int &tamanhoCidades, int &tMaximo)
 {
     int novoId;
@@ -290,7 +293,6 @@ void lerCidade(struct Cidade cidades[], int &tamanhoCidades, int &tMaximo)
                 }
                 else
                 {
-
                     break;
                 }
             }
@@ -522,7 +524,10 @@ void lerMedicamento(struct Medicamento medicamentos[], int &tamanhoMedicamentos,
 }
 
 // FUNÇÃO PARA LEITURA (INLCUSÃO) DE NOVOS MÉDICOS
-void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, Cidade cidades[], int tamanhoCidades, Especialidade especialidades[], int tamanhoEspecialidades, int tamanho)
+void incluirMedico(struct Medico medicos[], int &tamanhoMedicos,
+                   Cidade cidades[], int tamanhoCidades,
+                   Especialidade especialidades[], int tamanhoEspecialidades,
+                   int tamanho)
 {
     int novoId;
 
@@ -656,7 +661,9 @@ void incluirMedico(struct Medico medicos[], int &tamanhoMedicos, Cidade cidades[
 }
 
 // FUNÇÃO PARA LEITURA (INLCUSÃO) DE NOVOS PACIENTES
-void incluirPaciente(struct Paciente pacientes[], int &tamanhoPacientes, Cidade cidades[], int tamanhoCidades, int tMaximo)
+void incluirPaciente(struct Paciente pacientes[], int &tamanhoPacientes,
+                     Cidade cidades[], int tamanhoCidades,
+                     int tMaximo)
 {
     int novoCpf;
     if (tamanhoPacientes < tMaximo)
@@ -778,7 +785,10 @@ void excluirPaciente(Paciente pacientes[], int &tamanhoPacientes)
 
     if (cpfEncontrado)
     {
-        pacientes[i] = pacientes[i + 1];
+        for (; i < tamanhoPacientes; i++)
+        {
+            pacientes[i] = pacientes[i + 1];
+        }
 
         cout << "\nPaciente excluido com sucesso!\n";
     }
