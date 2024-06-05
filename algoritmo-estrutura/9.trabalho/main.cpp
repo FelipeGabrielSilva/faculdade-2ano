@@ -1080,7 +1080,7 @@ void agendarConsulta(struct Consulta consultas[], int &tamanhoConsultas,
     }
 }
 
-void calcularValorTotalArrecadado(Consulta consultas[], int tamanhoConsultas, Medicamento medicamentos[], int tamanhoMedicamentos)
+void TotalArrecadado(Consulta consultas[], int tamanhoConsultas, Medicamento medicamentos[], int tamanhoMedicamentos)
 {
     float valorTotal = 0;
     for (int i = 0; i < tamanhoConsultas; i++)
@@ -1160,22 +1160,18 @@ int main()
         {
         case 1:
             lerCidade(cidades, tamanhoCidades, tamanho);
-
             break;
 
         case 2:
             lerEspecialidade(especialidades, tamanhoEspecialidades, tamanho);
-
             break;
 
         case 3:
             lerCid(cids, tamanhoCids, tamanho);
-
             break;
 
         case 4:
             lerMedicamento(medicamentos, tamanhoMedicamentos, tamanho);
-
             break;
 
         case 5:
@@ -1188,22 +1184,23 @@ int main()
 
         case 7:
             incluirMedico(medicos, tamanhoMedicos, cidades, tamanhoCidades, especialidades, tamanhoEspecialidades, tamanho);
-
             break;
 
         case 8:
             incluirPaciente(pacientes, tamanhoPacientes, cidades, tamanhoCidades, tamanho);
-
             break;
 
         case 9:
-            agendarConsulta(consultas, tamanhoConsultas, pacientes, tamanhoPacientes,
-                            medicos, tamanhoMedicos, cidades, tamanhoCidades,
-                            medicamentos, tamanhoMedicamentos, especialidades, tamanhoEspecialidades, cids, tamanhoCids);
+            agendarConsulta(consultas, tamanhoConsultas, 
+                            pacientes, tamanhoPacientes,
+                            medicos, tamanhoMedicos, 
+                            cidades, tamanhoCidades,
+                            medicamentos, tamanhoMedicamentos, 
+                            especialidades, tamanhoEspecialidades, 
+                            cids, tamanhoCids);
             break;
 
         case 10:
-
             if (tamanhoCidades > 0)
             {
                 cout << "\nImprimindo cidades:\n";
@@ -1282,7 +1279,6 @@ int main()
             break;
 
         case 15:
-
             if (tamanhoPacientes > 0)
             {
                 cout << "\nImprimindo pacientes:\n";
@@ -1329,7 +1325,7 @@ int main()
             break;
 
         case 18:
-            calcularValorTotalArrecadado(consultas, tamanhoConsultas, medicamentos, tamanhoMedicamentos);
+            TotalArrecadado(consultas, tamanhoConsultas, medicamentos, tamanhoMedicamentos);
             break;
 
         default:
